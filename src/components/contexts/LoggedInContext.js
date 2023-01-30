@@ -4,20 +4,19 @@ import { useState } from "react";
 const LoggedInContext = createContext();
 
 const Provider = ({ children }) => {
-  const currState = {
-    loggedIn: false,
-    token: null,
-  };
-  // useState hook for updating weather user is still logged or not
-  const [isLoggedIn, setIsLoggedIn] = useState(currState);
+  const [accessData, setAccessData] = useState({ userId: null, token: null });
 
-  // function for changing isLoggedIn state
-  const userLoginState = (newState) => {
-    setIsLoggedIn({ loggedIn: newState.loggedIn, token: newState.token });
+  const updateAccessToken = (newToken) => {
+    setAccessData((accessData) => ({ ...accessData, token: newToken }));
   };
-
+  const setUserId = (userIdNumber) => {
+    setAccessData((accessData) => ({ ...accessData, userId: userIdNumber }));
+  };
+  // todo maybe instead array, pass props in object? here, below...
   return (
-    <LoggedInContext.Provider value={isLoggedIn}>
+    <LoggedInContext.Provider
+      value={[accessData, updateAccessToken, setUserId]}
+    >
       {children}
     </LoggedInContext.Provider>
   );

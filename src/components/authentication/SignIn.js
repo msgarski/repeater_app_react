@@ -1,56 +1,64 @@
-// import { http } from "../../general/axios";
+//todo import { http } from "../../general/axios";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../general/constants";
+import { useContext, useState } from "react";
+import LoggedInContext from "../contexts/LoggedInContext";
 
 const SignIn = () => {
-  let errorCode = null;
+  const [accessData, updateAccessToken, setUserId] =
+    useContext(LoggedInContext);
 
-  // object for received form data
-  const pack = {
-    email: "msgarski@gmail.com",
-    password: "tofik1",
-    token: null,
-    expiresIn: null,
+  const INITIAL_CREDENTIALS_STATE = {
+    email: "",
+    password: "",
+    expiresIn: null, // todo is this needed?
+  };
+
+  const [credentialsPack, setCredentialsPack] = useState(
+    INITIAL_CREDENTIALS_STATE
+  );
+
+  // todo below function could be reuseable...
+  const handleChangeInputField = (event) => {
+    setCredentialsPack({
+      ...credentialsPack,
+      [event.target.id]: event.target.value,
+    });
   };
 
   const sendCredentials = async () => {
     try {
-      const response = await axios.post(API_URL + "/login/entering", pack);
+      const response = await axios.post(
+        API_URL + "/login/entering",
+        credentialsPack
+      );
       console.clear();
-
       console.log("response :>> ", response.data);
+
+      updateAccessToken(response.data.token);
+      setUserId(response.data.userId);
+      console.log(
+        "świeżo pozyskane dane :",
+        accessData.userId,
+        accessData.token
+      );
     } catch (err) {
       console.log("err", err);
     }
   };
-  // blocking form's button from reloading the page
-  // and executing http request with form's data
-  const handleSubmit = (event) => {
+
+  const handleSubmitEvent = (event) => {
     event.preventDefault();
-    // todo obsluga http requesta
     sendCredentials();
-    // todo wstawienie tokena w store albo w localstorage
+    setCredentialsPack(INITIAL_CREDENTIALS_STATE);
     // todo wstawienie faktu zalogowania w store lub contexie
-    // todo wstawienie userId do stora
     // todo wyczyszczenie pól w formularzu, zwlaszcza password
     // todo po udanym zalogowaniu, przekierować usera do PorchSite
   };
 
-  //       http
-  //         .post("/login/entering", pack)
-  //         .then((response) => {
-  //
-  //           this.password = "";
-  //           this.token = response.data.token;
-  //           localStorage.setItem("token", this.token);
-  //           this.$store.dispatch("setUserId", response.data.userId);
-  //           this.$store.dispatch("login");
-  //
   //           this.$store.dispatch("setTodayDate");
-  //         })
-  //
-  //
+
   //         .catch((error) => {
   //           switch (error.response.status) {
   //             case 403:
@@ -73,15 +81,27 @@ const SignIn = () => {
     <>
       <h1 id="title">Logowanie</h1>
       <div>
-        <form onSubmit={handleSubmit}>
-          {/* //todo insert reusable components instead of below: */}
+        <form onSubmit={handleSubmitEvent}>
+          {/* //todo insert reusable components instead of below fields: */}
           <div>
             <label htmlFor="email">E-mail</label>
-            <input type="email" name="email" id="email" />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={credentialsPack.email}
+              onChange={handleChangeInputField}
+            />
           </div>
           <div>
             <label htmlFor="password">Hasło</label>
-            <input type="password" name="password" />
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={credentialsPack.password}
+              onChange={handleChangeInputField}
+            />
           </div>
           <button type="submit">Zatwierdź</button>
         </form>
