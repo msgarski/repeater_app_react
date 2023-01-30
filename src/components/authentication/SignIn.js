@@ -1,19 +1,14 @@
-//todo import { http } from "../../general/axios";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../general/constants";
+import { INITIAL_CREDENTIALS_STATE } from "../../general/constants";
 import { useContext, useState } from "react";
 import LoggedInContext from "../contexts/LoggedInContext";
+import InputField from "../forms/InputField";
 
 const SignIn = () => {
   const [accessData, updateAccessToken, setUserId] =
     useContext(LoggedInContext);
-
-  const INITIAL_CREDENTIALS_STATE = {
-    email: "",
-    password: "",
-    expiresIn: null, // todo is this needed?
-  };
 
   const [credentialsPack, setCredentialsPack] = useState(
     INITIAL_CREDENTIALS_STATE
@@ -82,40 +77,36 @@ const SignIn = () => {
       <h1 id="title">Logowanie</h1>
       <div>
         <form onSubmit={handleSubmitEvent}>
-          {/* //todo insert reusable components instead of below fields: */}
-          <div>
-            <label htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={credentialsPack.email}
-              onChange={handleChangeInputField}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Hasło</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={credentialsPack.password}
-              onChange={handleChangeInputField}
-            />
-          </div>
+          <InputField
+            title="Login (e-mail)"
+            id="email"
+            type="email"
+            name="email"
+            value={credentialsPack.email}
+            onChange={handleChangeInputField}
+          />
+
+          <InputField
+            title="Hasło"
+            id="password"
+            type="password"
+            name="password"
+            value={credentialsPack.password}
+            onChange={handleChangeInputField}
+          />
           <button type="submit">Zatwierdź</button>
         </form>
         {/* if "errorCode == 404" */}
         <div>
-          <p>Nie ma usera</p>
+          <p>Nie ma użytkownika o podanym adresie email</p>
         </div>
         {/* if "errorCode == 401" */}
         <div>
-          <p>Błąd logowania</p>
+          <p>Nieprawidłowy Login lub hasło</p>
         </div>
         {/* if "errorCode == 403" */}
         <div>
-          <p>Konto nieaktywne</p>
+          <p>Konto nie zostało aktywowane, sprawdź swoją skrzynkę pocztową</p>
         </div>
       </div>
       <div>
