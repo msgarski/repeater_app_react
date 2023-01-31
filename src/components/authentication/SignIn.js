@@ -7,14 +7,15 @@ import LoggedInContext from "../contexts/LoggedInContext";
 import InputField from "../forms/InputField";
 
 const SignIn = () => {
-  const [accessData, updateAccessToken, setUserId] =
-    useContext(LoggedInContext);
+  const [updateAccessToken, setUserId] = useContext(LoggedInContext);
 
   const [credentialsPack, setCredentialsPack] = useState(
     INITIAL_CREDENTIALS_STATE
   );
 
-  // todo below function could be reuseable...
+  // todo below function could be reuseable..., but how?
+  // todo the same method exists in ForgotPassword component
+
   const handleChangeInputField = (event) => {
     setCredentialsPack({
       ...credentialsPack,
@@ -33,11 +34,6 @@ const SignIn = () => {
 
       updateAccessToken(response.data.token);
       setUserId(response.data.userId);
-      console.log(
-        "świeżo pozyskane dane :",
-        accessData.userId,
-        accessData.token
-      );
     } catch (err) {
       console.log("err", err);
     }
@@ -47,8 +43,6 @@ const SignIn = () => {
     event.preventDefault();
     sendCredentials();
     setCredentialsPack(INITIAL_CREDENTIALS_STATE);
-    // todo wstawienie faktu zalogowania w store lub contexie
-    // todo wyczyszczenie pól w formularzu, zwlaszcza password
     // todo po udanym zalogowaniu, przekierować usera do PorchSite
   };
 
@@ -96,11 +90,8 @@ const SignIn = () => {
           />
           <button type="submit">Zatwierdź</button>
         </form>
-        {/* if "errorCode == 404" */}
-        <div>
-          <p>Nie ma użytkownika o podanym adresie email</p>
-        </div>
-        {/* if "errorCode == 401" */}
+
+        {/* if "errorCode == 401 lub 404" */}
         <div>
           <p>Nieprawidłowy Login lub hasło</p>
         </div>

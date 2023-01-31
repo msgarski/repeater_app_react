@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-
 import SignIn from "../components/authentication/SignIn";
 import SignUp from "../components/authentication/SignUp";
 import Home from "../components/Home";
 import ForgotPassword from "../components/authentication/ForgotPassword";
+import PorchSite from "../components/PorchSite";
 
 const AppRoutes = () => {
   return (
@@ -15,6 +15,7 @@ const AppRoutes = () => {
         <Route path="signin" element={<SignIn />}></Route>
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="forgot" element={<ForgotPassword />}></Route>
+        <Route path="porch" element={<PorchSite />}></Route>
       </Routes>
     </>
   );

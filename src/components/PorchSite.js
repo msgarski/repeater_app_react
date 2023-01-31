@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
 const PorchSite = () => {
   return (
     <>
@@ -7,27 +10,27 @@ const PorchSite = () => {
           {/* v-if="!chooseCourse" */}
           <div>
             <div>
-              <div className="btn">
+              <div>
                 {/* <!-- <router-link :to="'/repeating/' + courseId"> --> */}
                 {/* @click="setChooseCourse" */}
-                <button className="button">Krótkie powtórki</button>
+                <button>Krótkie powtórki</button>
               </div>
             </div>
 
             <div>
-              <div className="btn">
-                <button className="button-1">Zadania na dzisiaj</button>
+              <div>
+                <button>Zadania na dzisiaj</button>
               </div>
-              <div className="btn">
-                {/* <router-link to="/mainscreen">
-                  <button class="button">Przejdź do programu</button>
-                </router-link> */}
+              <div>
+                <button>Przejdź do programu</button>
               </div>
             </div>
           </div>
           <div>
             <div>
-              <button>Wstecz</button>
+              <Link to="../">
+                <button>Wstecz czy wyloguj?</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -35,3 +38,5 @@ const PorchSite = () => {
     </>
   );
 };
+
+export default PorchSite;
