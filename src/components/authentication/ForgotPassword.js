@@ -5,6 +5,8 @@ import { INITIAL_EMAIL_CONFIRMATION_STATE } from "../../general/constants";
 import { validateEmail, identityChecking } from "../../general/validators";
 
 const ForgotPassword = () => {
+  const [userState, setUserState] = useState(true);
+  const [messageState, setMessageState] = useState(false);
   const [emailsPack, setEmailsPack] = useState(
     INITIAL_EMAIL_CONFIRMATION_STATE
   );
@@ -12,7 +14,7 @@ const ForgotPassword = () => {
   const handleChangeInputField = (event) => {
     setEmailsPack({
       ...emailsPack,
-      [event.target.id]: event.target.value,
+      [event.target.id]: event.target.value.trim().toLowerCase(),
     });
   };
 
@@ -21,49 +23,64 @@ const ForgotPassword = () => {
 
     setEmailsPack(INITIAL_EMAIL_CONFIRMATION_STATE);
   };
-
+  //***************************************************************************** */
+  //**************************************************************************** */
   const handleSubmitForm = (event) => {
+    console.clear();
     event.preventDefault();
 
-    setEmailsPack({
-      email1: emailsPack.email1.trim().toLowerCase(),
-      email2: emailsPack.email2.trim().toLowerCase(),
-    });
-    //todo usereducer for below options needed:
     if (!identityChecking(emailsPack.email1, emailsPack.email2)) {
       // emails are not equal!!!
-      console.log("emails are not equal each other");
-      setEmailsPack(INITIAL_EMAIL_CONFIRMATION_STATE);
-    }
-    if (!validateEmail(emailsPack.email1)) {
-      // string is not an email
+      setEmailsPack({ ...INITIAL_EMAIL_CONFIRMATION_STATE, finished: true });
+    } else if (!validateEmail(emailsPack.email1)) {
+      // this string is not an email address!!
       console.log("this is not proper email address");
-      setEmailsPack(INITIAL_EMAIL_CONFIRMATION_STATE);
+      setEmailsPack({ ...INITIAL_EMAIL_CONFIRMATION_STATE, finished: true });
+    } else {
+      console.log("seems to be ok");
+      sendForgottenPasswordForm();
     }
-
-    sendForgottenPasswordForm();
   };
-
+  //**************************************************************************************** */
+  //**************************************************************************************** */
   return (
     <>
       <h1>Odnowienie hasła</h1>
+
+      <p>
+        Na adres email, podany podczas rejestracji, prześlemy link do
+        zresetowania hasła
+      </p>
+
       {/* gdy skutecznie wysłano email z linkiem do zresetowania hasła */}
       <div>
-        <p>
-          email z linkiem do zresetowania Twojego hasła, został wysłany na adres
-          podany przy rejestracji
-        </p>
+        {/* todo modal... */}
+        {messageState ? (
+          <p>
+            email z linkiem do zresetowania Twojego hasła, został wysłany na
+            podany adres
+          </p>
+        ) : (
+          <p></p>
+        )}
       </div>
-      {/* jeśli user nie został znaleziony */}
       <div>
-        <p>Użytkownik o podanym adresie email, nie istnieje...</p>
+        {!userState ? (
+          <p>Użytkownik o podanym adresie email, nie istnieje...</p>
+        ) : (
+          <p></p>
+        )}
       </div>
 
       <div>
-        <p>
-          Na podany przez Ciebie poniżej adres, prześlemy link do formularza
-          resetowania hasła
-        </p>
+        {!(emailsPack.identity || emailsPack.correctness) &&
+        emailsPack.finished ? (
+          <p>Podany adres zawierał błąd, lub został źle powtórzony</p>
+        ) : (
+          <p></p>
+        )}
+      </div>
+      <div>
         <form onSubmit={handleSubmitForm}>
           <div>
             <InputField
