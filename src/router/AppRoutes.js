@@ -4,6 +4,7 @@ import SignUp from "../components/authentication/SignUp";
 import Home from "../components/Home";
 import ForgotPassword from "../components/authentication/ForgotPassword";
 import PorchSite from "../components/PorchSite";
+import ResetPassword from "../components/authentication/ResetPassword";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,9 @@ const AppRoutes = () => {
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="forgot" element={<ForgotPassword />}></Route>
         <Route path="porch" element={<PorchSite />}></Route>
+        <Route path="resetpass" element={<ResetPassword />}>
+          <Route path=":resetToken" element={<ResetPassword />}></Route>
+        </Route>
       </Routes>
     </>
   );

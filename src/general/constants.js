@@ -13,3 +13,12 @@ export const INITIAL_EMAIL_CONFIRMATION_STATE = {
   identity: false,
   correctness: false,
 };
+
+export const INITIAL_PASSWORD_RESETING_STATE = {
+  password1: "",
+  password2: "",
+  finished: false,
+  identity: false,
+  correctness: false,
+  changed: false,
+};
