@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useContext } from "react";
+import LoggedInContext from "./contexts/LoggedInContext";
 import { Link } from "react-router-dom";
 
 const PorchSite = () => {
+  const { accessData } = useContext(LoggedInContext);
+
+  console.log("token i id: ", accessData.token, accessData.userId);
+  //*************************************************************************** */
+  //  JSX code
+  //*************************************************************************** */
   return (
     <>
       <div>
