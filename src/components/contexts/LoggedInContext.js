@@ -1,27 +1,33 @@
-import { createContext } from "react";
-import { useState } from "react";
+import { createContext, useState } from "react";
 
 const LoggedInContext = createContext();
 
 const Provider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [token, setToken] = useState(null);
-  const accessData = {
-    userId,
-    token,
-  };
 
-  const updateTokenContext = (newToken) => {
+  const setTokenContext = (newToken) => {
     setToken(newToken);
   };
 
-  const updateUserIdContext = (userIdNumber) => {
+  const setUserIdContext = (userIdNumber) => {
     setUserId(userIdNumber);
   };
-  // todo maybe instead array, pass props in object? here, below...
+
+  const userLogOut = () => {
+    setToken(null);
+    setUserId(null);
+  };
+
   return (
     <LoggedInContext.Provider
-      value={{ accessData, updateTokenContext, updateUserIdContext }}
+      value={{
+        token,
+        userId,
+        userLogOut,
+        setTokenContext,
+        setUserIdContext,
+      }}
     >
       {children}
     </LoggedInContext.Provider>

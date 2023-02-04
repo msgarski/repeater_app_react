@@ -1,16 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL, INITIAL_CREDENTIALS_STATE } from "../../general/constants";
-import { useContext, useState } from "react";
-import LoggedInContext from "../contexts/LoggedInContext";
+import { useState } from "react";
+import useAuthentication from "../../hooks/useAuthentication";
 import InputField from "../forms/InputField";
 import InfoModal from "../modals/InfoModal";
 
 const SignIn = () => {
   const navigate = useNavigate();
 
-  const { updateTokenContext, updateUserIdContext } =
-    useContext(LoggedInContext);
+  const { token, userId, setTokenContext, setUserIdContext } =
+    useAuthentication();
+
+  console.log("token i id z signin: ", token, userId);
 
   const [credentialsPack, setCredentialsPack] = useState(
     INITIAL_CREDENTIALS_STATE
@@ -39,12 +41,9 @@ const SignIn = () => {
         API_URL + "/login/entering",
         credentialsPack
       );
-
-      updateTokenContext(response.data.token);
-      updateUserIdContext(response.data.userId);
-
+      setTokenContext(response.data.token);
+      setUserIdContext(response.data.userId);
       // todo przekierować dopiero po potwierdzeniu istnienia danych w contexcie,
-      //todo moze nawet poza requestem?
       navigate("/porch");
     } catch (error) {
       console.log("err", error);
@@ -58,7 +57,6 @@ const SignIn = () => {
     event.preventDefault();
     sendCredentials();
     setCredentialsPack(INITIAL_CREDENTIALS_STATE);
-    // todo po udanym zalogowaniu, przekierować usera do PorchSite
   };
 
   //**************************************************************************************** */

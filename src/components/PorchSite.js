@@ -1,11 +1,12 @@
-import { useContext } from "react";
-import LoggedInContext from "./contexts/LoggedInContext";
+// import { useState } from "react";
 import { Link } from "react-router-dom";
+import useAuthentication from "../hooks/useAuthentication";
 
 const PorchSite = () => {
-  const { accessData } = useContext(LoggedInContext);
+  const { token, userId, userLogOut } = useAuthentication();
 
-  console.log("token i id: ", accessData.token, accessData.userId);
+  console.log("token i id: ", token, userId);
+
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -36,7 +37,7 @@ const PorchSite = () => {
           <div>
             <div>
               <Link to="../">
-                <button>Wstecz czy wyloguj?</button>
+                <button onClick={userLogOut}>Wstecz czy wyloguj?</button>
               </Link>
             </div>
           </div>

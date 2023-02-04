@@ -5,18 +5,26 @@ import Home from "../components/Home";
 import ForgotPassword from "../components/authentication/ForgotPassword";
 import PorchSite from "../components/PorchSite";
 import ResetPassword from "../components/authentication/ResetPassword";
+import ProtectedPage from "../components/authentication/ProtectedPage";
 
 const AppRoutes = () => {
   return (
     <>
       <Routes>
         <Route index element={<Home />}></Route>
-        <Route path="*" element={<Home />}></Route>
+        <Route path="*" element={<SignIn />}></Route>
         <Route path="home" element={<Home />}></Route>
         <Route path="signin" element={<SignIn />}></Route>
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="forgot" element={<ForgotPassword />}></Route>
-        <Route path="porch" element={<PorchSite />}></Route>
+        <Route
+          path="porch"
+          element={
+            <ProtectedPage>
+              <PorchSite />
+            </ProtectedPage>
+          }
+        ></Route>
         <Route path="resetpass" element={<ResetPassword />}>
           <Route path=":resetToken" element={<ResetPassword />}></Route>
         </Route>

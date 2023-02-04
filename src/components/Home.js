@@ -1,7 +1,15 @@
 // import react from "react";
 import { Link } from "react-router-dom";
+import useAuthentication from "../hooks/useAuthentication";
 
 const Home = () => {
+  const { token, userId, userLogOut } = useAuthentication();
+
+  console.log("token i id: ", token, userId);
+
+  //****************************************************************** */
+  // JSX code
+  //****************************************************************** */
   return (
     <div>
       <div id="title">
