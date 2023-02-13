@@ -1,7 +1,9 @@
-// import { useState } from "react";
 import { Link } from "react-router-dom";
 import useAuthentication from "../hooks/useAuthentication";
 
+//**************************************************************************** */
+//  Main Block
+//**************************************************************************** */
 const PorchSite = () => {
   const { token, userId, userLogOut } = useAuthentication();
 
@@ -13,35 +15,20 @@ const PorchSite = () => {
   return (
     <>
       <div>
-        {/* if="isLoggedIn" */}
-        <div>
-          {/* v-if="!chooseCourse" */}
-          <div>
-            <div>
-              <div>
-                {/* <!-- <router-link :to="'/repeating/' + courseId"> --> */}
-                {/* @click="setChooseCourse" */}
-                <button>Krótkie powtórki</button>
-              </div>
-            </div>
-
-            <div>
-              <div>
-                <button>Zadania na dzisiaj</button>
-              </div>
-              <div>
-                <button>Przejdź do programu</button>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <Link to="../">
-                <button onClick={userLogOut}>Wstecz czy wyloguj?</button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <button>Powtórki na szybko...</button>
+      </div>
+      <div>
+        <button>Zadania na dzisiaj</button>
+      </div>
+      <div>
+        <button>Przejdź do programu</button>
+      </div>
+      <div>
+        <Link to="../">
+          <button type="button" onClick={userLogOut}>
+            Wyloguj
+          </button>
+        </Link>
       </div>
     </>
   );

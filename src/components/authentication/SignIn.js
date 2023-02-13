@@ -9,8 +9,13 @@ import InfoModal from "../modals/InfoModal";
 const SignIn = () => {
   const navigate = useNavigate();
 
-  const { token, userId, setTokenContext, setUserIdContext } =
-    useAuthentication();
+  const {
+    token,
+    userId,
+    setTokenContext,
+    setUserIdContext,
+    setUserNameContext,
+  } = useAuthentication();
 
   console.log("token i id z signin: ", token, userId);
 
@@ -43,6 +48,7 @@ const SignIn = () => {
       );
       setTokenContext(response.data.token);
       setUserIdContext(response.data.userId);
+      setUserNameContext(response.data.userName);
       // todo przekierować dopiero po potwierdzeniu istnienia danych w contexcie,
       navigate("/porch");
     } catch (error) {
