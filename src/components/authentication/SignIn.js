@@ -28,15 +28,15 @@ const SignIn = () => {
     setErrorCode(null);
   };
 
-  // todo below function could be reuseable..., but how?
   // todo because the same method exists in ForgotPassword component
 
-  const handleChangeInputField = (event) => {
+  const handleInputFieldToHookObject = (event) => {
     setCredentialsPack({
       ...credentialsPack,
       [event.target.id]: event.target.value,
     });
   };
+
   //****************************************************************************** */
   // http request method
   //****************************************************************************** */
@@ -49,7 +49,6 @@ const SignIn = () => {
       setTokenContext(response.data.token);
       setUserIdContext(response.data.userId);
       setUserNameContext(response.data.userName);
-      // todo przekierować dopiero po potwierdzeniu istnienia danych w contexcie,
       navigate("/porch");
     } catch (error) {
       console.log("err", error);
@@ -104,7 +103,7 @@ const SignIn = () => {
             type="email"
             name="email"
             value={credentialsPack.email}
-            onChange={handleChangeInputField}
+            onChange={handleInputFieldToHookObject}
           />
 
           <InputField
@@ -113,7 +112,7 @@ const SignIn = () => {
             type="password"
             name="password"
             value={credentialsPack.password}
-            onChange={handleChangeInputField}
+            onChange={handleInputFieldToHookObject}
           />
           <p>msgarski@gmail.com</p>
           <button type="submit">Zatwierdź</button>

@@ -1,8 +1,9 @@
-const InfoModal = ({ message, action }) => {
+const InfoModal = ({ message, action, children }) => {
+  // todo zrobic krzyzyk kasowania modala
   return (
     <>
       <div>{message}</div>
-      <button onClick={action}>Wyjście</button>
+      <button onClick={action}>{children}</button>
     </>
   );
 };

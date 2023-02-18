@@ -1,53 +1,134 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import {
+  SPECIAL_CHARS_ALLOWED_IN_PASSWORD,
+  INITIAL_USER_SIGNUP_STATE,
+} from "../../general/constants";
+import { Link, useNavigate } from "react-router-dom";
+import InputField from "../forms/InputField";
+import InfoModal from "../modals/InfoModal";
+import { checkStringForSpecialChar } from "../../general/validators";
+import {
+  userExistsMessage,
+  activationLinkMessage,
+} from "../../general/messages";
+import { type } from "@testing-library/user-event/dist/type";
 
-import { Link } from "react-router-dom";
-
+//************************************************************************ */
+// Function component
+//************************************************************************ */
 const SignUp = () => {
+  const [signUpPack, setSignUpPack] = useState(INITIAL_USER_SIGNUP_STATE);
+  const navigate = useNavigate();
+  const passRef = useRef();
+  const [typeOfInputField, setTypeOfInputField] = useState("password");
+
+  useEffect(() => {
+    let result = checkStringForSpecialChar(signUpPack.password);
+    console.log("test hasła na speckal chars: ", result);
+  }, [signUpPack.password, typeOfInputField]);
+
+  const handleInputFieldToHookObject = (event) => {
+    //
+    setSignUpPack({
+      ...signUpPack,
+      [event.target.id]: event.target.value,
+    });
+  };
+
+  // const showHidePassword = (passRef) => {
+  //   console.log("co ma ref?: ", passRef.current);
+  // };
+  //*************************************************************************** */
+  // Http request method
+  //*************************************************************************** */
+
+  //*************************************************************************** */
+  // Form submition method
+  //*************************************************************************** */
+  const handleSubmitSignUpForm = (event) => {
+    event.preventDefault();
+  };
+  const checkPass = () => {
+    //
+    console.log("sprawdzenie hasla: ", passRef.current.type);
+    setTypeOfInputField(typeOfInputField ? "" : "password");
+    console.log("typ: ", typeOfInputField);
+  };
+  //************************************************************************** */
+  // JSX code section
+  //************************************************************************** */
   return (
     <>
       <h1>Rejestracja</h1>
 
       <div>
-        {/* v-if="!userId"  */}
-        <form>
-          <div>
-            <label for="name">Imię</label>
-            <input type="text" name="name" id="name" />
-          </div>
+        <form onSubmit={handleSubmitSignUpForm}>
+          <InputField
+            title="Imię"
+            type="text"
+            name="name"
+            id="name"
+            value={signUpPack.name}
+            onChange={handleInputFieldToHookObject}
+          />
 
-          <div>
-            <label for="email">Adres e-mail</label>
-            <input type="email" name="email" id="email" />
-          </div>
-
-          <div>
-            <label for="password">Hasło</label>
-            <input type="password" name="password" id="password" />
-          </div>
-
-          <div>
-            <label for="password_confirmation">Potwierdź hasło</label>
-            <input
-              type="password"
-              name="password_confirmation"
-              id="password_confirmation"
-            />
-          </div>
+          <InputField
+            title="Adres e-mail"
+            type="email"
+            name="email"
+            id="email"
+            value={signUpPack.email}
+            onChange={handleInputFieldToHookObject}
+          />
+          <InputField
+            ref={passRef}
+            title="Hasło"
+            type={typeOfInputField}
+            name="password"
+            id="password"
+            value={signUpPack.password}
+            onChange={handleInputFieldToHookObject}
+          />
+          <button onClick={checkPass}>sprawdz!</button>
+          <InputField
+            title="Potwierdź hasło"
+            type="password"
+            name="password_confirmation"
+            id="password_confirmation"
+            value={signUpPack.password_confirmation}
+            onChange={handleInputFieldToHookObject}
+          />
+          <section>
+            <p>długość hasła - od 5 do 15 znaków</p>
+            <p>
+              obecność minimum jednego znaku specjalnego:{" "}
+              {SPECIAL_CHARS_ALLOWED_IN_PASSWORD}
+            </p>
+            <p>obecność minimum jednej cyfry</p>
+            <p>zgodność obu haseł</p>
+          </section>
 
           <button> Stwórz konto</button>
         </form>
-        {/* v-else-if="userId=='exists'" */}
+        {/* if="userId=='exists'" */}
         <div>
-          <p>Użytkownik o podanym adresie e-mail, istnieje już w systemie</p>
+          <div>
+            <InfoModal
+              message={userExistsMessage}
+              action={() => {
+                navigate("/forgot");
+              }}
+            >
+              Odzyskiwanie hasła
+            </InfoModal>
+          </div>
           <p>Popraw adres poczty elektronicznej</p>
-          <p>Skorzystaj z opcji odzyskiwania hasła</p>
         </div>
-        {/* v-else */}
+
         <div>
-          <p>
-            Na podany podczas rejestracji adres e-mail, wysłaliśmy wiadomość z
-            linkiem do aktywacji konta
-          </p>
+          <InfoModal message={activationLinkMessage}>
+            <a href="http://google.com">Wyjście</a>
+          </InfoModal>
         </div>
       </div>
 
