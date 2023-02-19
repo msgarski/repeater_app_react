@@ -28,10 +28,24 @@ export const INITIAL_PASSWORD_RESETING_STATE = {
   correctness: false,
   changed: false,
 };
+
+export const INITIAL_PAIR_PASSWORD_STATE = {
+  password: "",
+  password_confirmation: "",
+};
+
+export const INITIAL_PAIR_EMAIL_STATE = {
+  email: "",
+  email_confirmation: "",
+};
+
 export const PASSWORD_MIN_MAX_LENGTH = [5, 15];
 // export const ASCII_REGEX = /^[\x00-\x7F]*$/;
+
 export const SPECIAL_CHAR_REGEX = /[!@#$%^&*)\\(+=.<>{}[\]:;'"|~`_-]/;
+
 export const SPECIAL_CHARS_ALLOWED_IN_PASSWORD =
   "~`!@#$%^&*()_-+={[}]|\\:;\",'<,>.?/";
+
 export const EMAIL_VALIDATION_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

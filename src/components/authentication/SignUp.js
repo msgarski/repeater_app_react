@@ -9,20 +9,28 @@ import {
   userExistsMessage,
   activationLinkMessage,
 } from "../../general/messages";
+import PasswordDoubleSection from "../forms/PasswordDoubleSection";
+import EmailDoubleSection from "../forms/EmailDoubleSection";
 
 //************************************************************************ */
 // Function component
 //************************************************************************ */
 const SignUp = () => {
   const [signUpPack, setSignUpPack] = useState(INITIAL_USER_SIGNUP_STATE);
-  const [typeOfInputField, setTypeOfInputField] = useState("password");
+  // const [typeOfInputField, setTypeOfInputField] = useState("password");
   const navigate = useNavigate();
-  const passRef = useRef();
+  const buttonRef = useRef();
+  //******************************************************************* */
+  // pass and email double reusable comps
+  //********************************************************************** */
+  const [passIsValid, setPassIsValid] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(false);
 
+  //********************************************************************* */
   useEffect(() => {
     let result = checkStringForSpecialChar(signUpPack.password);
     console.log("test hasła na speckal chars: ", result);
-  }, [signUpPack.password, typeOfInputField]);
+  }, [signUpPack.password]);
 
   const handleInputFieldToHookObject = (event) => {
     setSignUpPack({
@@ -30,6 +38,12 @@ const SignUp = () => {
       [event.target.id]: event.target.value,
     });
   };
+
+  useEffect(() => {
+    if (passIsValid && emailIsValid) {
+      buttonRef.current.disabled = false;
+    }
+  }, [passIsValid, emailIsValid]);
 
   //*************************************************************************** */
   // Http request method
@@ -45,11 +59,11 @@ const SignUp = () => {
   //************************************************************************** */
   // Validation rules
   //************************************************************************** */
-  const checkPass = () => {
-    console.log("uwidocznienie hasla: ", passRef.current.type);
-    setTypeOfInputField(typeOfInputField ? "" : "password");
-    console.log("typ: ", typeOfInputField);
-  };
+  // const checkPass = () => {
+  //   console.log("uwidocznienie hasla: ", passRef.current.type);
+  //   setTypeOfInputField(typeOfInputField ? "" : "password");
+  //   console.log("typ: ", typeOfInputField);
+  // };
   //************************************************************************** */
   // JSX code section
   //************************************************************************** */
@@ -68,15 +82,23 @@ const SignUp = () => {
             onChange={handleInputFieldToHookObject}
           />
 
-          <InputField
-            title="Adres e-mail"
-            type="email"
-            name="email"
-            id="email"
-            value={signUpPack.email}
-            onChange={handleInputFieldToHookObject}
-          />
-          <InputField
+          <hr />
+          <p>próbna sekcja emaili:</p>
+          <EmailDoubleSection setEmailIsValid={setEmailIsValid} />
+          <hr />
+          <p>Próbna sekcja haseł:</p>
+          <PasswordDoubleSection setPassIsValid={setPassIsValid} />
+          <hr />
+
+          {/* // <InputField
+          //   title="Adres e-mail"
+          //   type="email"
+          //   name="email"
+          //   id="email"
+          //   value={signUpPack.email}
+          //   onChange={handleInputFieldToHookObject}
+          // /> */}
+          {/* <InputField
             ref={passRef}
             title="Hasło"
             type={typeOfInputField}
@@ -92,10 +114,14 @@ const SignUp = () => {
             id="password_confirmation"
             value={signUpPack.password_confirmation}
             onChange={handleInputFieldToHookObject}
-          />
-          <button onClick={checkPass}>zobacz hasło</button>
+          /> */}
 
-          <button> Stwórz konto</button>
+          {/* <button onClick={checkPass}>zobacz hasło</button> */}
+
+          <button ref={buttonRef} disabled>
+            {" "}
+            Stwórz konto
+          </button>
         </form>
         {/* if="userId=='exists'" */}
         <InfoModal
