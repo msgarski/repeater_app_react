@@ -1,10 +1,11 @@
 import InputField from "./InputField";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { INITIAL_PAIR_EMAIL_STATE } from "../../general/constants";
 
-const EmailDoubleSection = ({ setEmailIsValid }) => {
+const EmailDoubleFields = ({ setEmailIsValid, setNewEmail, submition }) => {
   const [newEmailsState, setEmailsState] = useState(INITIAL_PAIR_EMAIL_STATE);
   const [emailValidation, setEmailValidation] = useState(false);
+  const emailRef = useRef();
 
   const handleInputFieldToHookObject = (event) => {
     setEmailsState({
@@ -15,9 +16,15 @@ const EmailDoubleSection = ({ setEmailIsValid }) => {
   useEffect(() => {
     if (emailValidation) {
       setEmailIsValid(true);
-      // todo przekazac email do signup
+      setNewEmail(newEmailsState.email);
     }
-  }, [emailValidation, setEmailIsValid]);
+  }, [emailValidation, setEmailIsValid, setNewEmail, newEmailsState.email]);
+
+  useEffect(() => {
+    if (submition) {
+      setEmailsState(INITIAL_PAIR_EMAIL_STATE);
+    }
+  }, [submition]);
 
   const isValid = () => {
     setEmailValidation(true);
@@ -26,6 +33,7 @@ const EmailDoubleSection = ({ setEmailIsValid }) => {
   return (
     <>
       <InputField
+        ref={emailRef}
         title="Adres e-mail"
         type="email"
         name="email"
@@ -48,4 +56,4 @@ const EmailDoubleSection = ({ setEmailIsValid }) => {
   );
 };
 
-export default EmailDoubleSection;
+export default EmailDoubleFields;

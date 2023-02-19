@@ -2,7 +2,11 @@ import InputField from "./InputField";
 import { useState, useRef, useEffect } from "react";
 import { INITIAL_PAIR_PASSWORD_STATE } from "../../general/constants";
 
-const PasswordDoubleSection = ({ setPassIsValid }) => {
+const PasswordDoublefields = ({
+  setPassIsValid,
+  setNewPassword,
+  submition,
+}) => {
   const [newPasswordsState, setPasswordsState] = useState(
     INITIAL_PAIR_PASSWORD_STATE
   );
@@ -11,26 +15,45 @@ const PasswordDoubleSection = ({ setPassIsValid }) => {
   const passRef = useRef();
 
   useEffect(() => {
+    if (submition) {
+      setPasswordsState(INITIAL_PAIR_PASSWORD_STATE);
+    }
+  }, [submition]);
+
+  useEffect(() => {
     if (passValidation) {
       setPassIsValid(true);
-      // todo przekazac pass do signup
+      setNewPassword(newPasswordsState.password);
     }
-  }, [passValidation, setPassIsValid]);
+  }, [
+    passValidation,
+    setPassIsValid,
+    setNewPassword,
+    newPasswordsState.password,
+  ]);
 
-  const checkPass = () => {
-    console.log("uwidocznienie hasla: ", passRef.current.type);
+  //************************************************************************** */
+  // Validation rules
+  //************************************************************************** */
+  // useEffect(() => {
+  //   let result = checkStringForSpecialChar(signUpPack.password);
+  //   console.log("test hasła na special chars: ", result);
+  // }, [signUpPack.password]);
+
+  const isValid = () => {
+    setPassValidation(true);
+  };
+
+  const showPass = () => {
+    // console.log("uwidocznienie hasla: ", passRef.current.type);
     setTypeOfInputField(typeOfInputField ? "" : "password");
-    console.log("typ: ", typeOfInputField);
+    // console.log("typ: ", typeOfInputField);
   };
   const handleInputFieldToHookObject = (event) => {
     setPasswordsState({
       ...newPasswordsState,
       [event.target.id]: event.target.value,
     });
-  };
-
-  const isValid = () => {
-    setPassValidation(true);
   };
 
   return (
@@ -53,7 +76,7 @@ const PasswordDoubleSection = ({ setPassIsValid }) => {
         value={newPasswordsState.password_confirmation}
         onChange={handleInputFieldToHookObject}
       />
-      <button onClick={checkPass} type="button">
+      <button onClick={showPass} type="button">
         zobacz hasło
       </button>
       <button onClick={isValid} type="button">
@@ -63,4 +86,4 @@ const PasswordDoubleSection = ({ setPassIsValid }) => {
   );
 };
 
-export default PasswordDoubleSection;
+export default PasswordDoublefields;

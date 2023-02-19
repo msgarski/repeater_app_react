@@ -3,21 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import InputField from "../forms/InputField";
 import InfoModal from "../modals/InfoModal";
 import ValidationUi from "../forms/ValidationUi";
-import { INITIAL_USER_SIGNUP_STATE } from "../../general/constants";
-import { checkStringForSpecialChar } from "../../general/validators";
+import PasswordDoubleFields from "../forms/PasswordDoubleFields";
+import EmailDoubleFields from "../forms/EmailDoubleFields";
 import {
   userExistsMessage,
   activationLinkMessage,
 } from "../../general/messages";
-import PasswordDoubleSection from "../forms/PasswordDoubleSection";
-import EmailDoubleSection from "../forms/EmailDoubleSection";
 
 //************************************************************************ */
 // Function component
 //************************************************************************ */
 const SignUp = () => {
-  const [signUpPack, setSignUpPack] = useState(INITIAL_USER_SIGNUP_STATE);
-  // const [typeOfInputField, setTypeOfInputField] = useState("password");
   const navigate = useNavigate();
   const buttonRef = useRef();
   //******************************************************************* */
@@ -25,25 +21,16 @@ const SignUp = () => {
   //********************************************************************** */
   const [passIsValid, setPassIsValid] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newName, setNewName] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   //********************************************************************* */
-  useEffect(() => {
-    let result = checkStringForSpecialChar(signUpPack.password);
-    console.log("test hasła na speckal chars: ", result);
-  }, [signUpPack.password]);
 
-  const handleInputFieldToHookObject = (event) => {
-    setSignUpPack({
-      ...signUpPack,
-      [event.target.id]: event.target.value,
-    });
+  const handleInputField = (event) => {
+    setNewName(event.target.value);
   };
-
-  useEffect(() => {
-    if (passIsValid && emailIsValid) {
-      buttonRef.current.disabled = false;
-    }
-  }, [passIsValid, emailIsValid]);
 
   //*************************************************************************** */
   // Http request method
@@ -52,18 +39,20 @@ const SignUp = () => {
   //*************************************************************************** */
   // Form submition method
   //*************************************************************************** */
+  useEffect(() => {
+    if (passIsValid && emailIsValid) {
+      buttonRef.current.disabled = false;
+    }
+  }, [passIsValid, emailIsValid]);
+
   const handleSubmitSignUpForm = (event) => {
     console.log("tworzenie konta...");
     event.preventDefault();
+    setIsSubmitted(true);
+    // todo http request
+    // todo czyszczenie danych formularza w requescie
   };
-  //************************************************************************** */
-  // Validation rules
-  //************************************************************************** */
-  // const checkPass = () => {
-  //   console.log("uwidocznienie hasla: ", passRef.current.type);
-  //   setTypeOfInputField(typeOfInputField ? "" : "password");
-  //   console.log("typ: ", typeOfInputField);
-  // };
+
   //************************************************************************** */
   // JSX code section
   //************************************************************************** */
@@ -78,48 +67,27 @@ const SignUp = () => {
             type="text"
             name="name"
             id="name"
-            value={signUpPack.name}
-            onChange={handleInputFieldToHookObject}
+            value={newName}
+            onChange={handleInputField}
           />
 
           <hr />
-          <p>próbna sekcja emaili:</p>
-          <EmailDoubleSection setEmailIsValid={setEmailIsValid} />
-          <hr />
-          <p>Próbna sekcja haseł:</p>
-          <PasswordDoubleSection setPassIsValid={setPassIsValid} />
-          <hr />
-
-          {/* // <InputField
-          //   title="Adres e-mail"
-          //   type="email"
-          //   name="email"
-          //   id="email"
-          //   value={signUpPack.email}
-          //   onChange={handleInputFieldToHookObject}
-          // /> */}
-          {/* <InputField
-            ref={passRef}
-            title="Hasło"
-            type={typeOfInputField}
-            name="password"
-            id="password"
-            value={signUpPack.password}
-            onChange={handleInputFieldToHookObject}
+          <p>sekcja emaili:</p>
+          <EmailDoubleFields
+            setEmailIsValid={setEmailIsValid}
+            setNewEmail={setNewEmail}
+            submition={isSubmitted}
           />
-          <InputField
-            title="Potwierdź hasło"
-            type={typeOfInputField}
-            name="password_confirmation"
-            id="password_confirmation"
-            value={signUpPack.password_confirmation}
-            onChange={handleInputFieldToHookObject}
-          /> */}
-
-          {/* <button onClick={checkPass}>zobacz hasło</button> */}
+          <hr />
+          <p>sekcja haseł:</p>
+          <PasswordDoubleFields
+            setPassIsValid={setPassIsValid}
+            setNewPassword={setNewPassword}
+            submition={isSubmitted}
+          />
+          <hr />
 
           <button ref={buttonRef} disabled>
-            {" "}
             Stwórz konto
           </button>
         </form>
