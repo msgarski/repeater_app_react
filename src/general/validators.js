@@ -13,6 +13,9 @@ export function checkPasswordLength(str) {
     str.length <= PASSWORD_MIN_MAX_LENGTH[1]
   );
 }
+export function isStringExists(str) {
+  return str.length;
+}
 export function checkStringForSpecialChar(str) {
   return SPECIAL_CHAR_REGEX.test(str);
 }
@@ -28,6 +31,11 @@ export function identityChecking(str1, str2) {
 export function passwordValidation(password) {
   return true;
 }
+//todo check if we can delete it:
 export const validateEmail = (email) => {
   return String(email).match(EMAIL_VALIDATION_REGEX);
+};
+export const hasEmailProperStructure = (email = "none") => {
+  // return String(email).match(EMAIL_VALIDATION_REGEX);
+  return EMAIL_VALIDATION_REGEX.test(email);
 };

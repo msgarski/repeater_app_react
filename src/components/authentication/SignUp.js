@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../forms/InputField";
 import InfoModal from "../modals/InfoModal";
-import EmailDoubleFields from "../forms/EmailDoubleFields";
+import EmailDouble from "../forms/EmailDouble";
 import PasswordDouble from "../forms/PasswordDouble";
 import {
   userExistsMessage,
@@ -17,9 +17,7 @@ const SignUp = () => {
   const submitButtonRef = useRef(); // !czy to potzrzebne???
   const passRef = useRef();
   const emailRef = useRef();
-  //******************************************************************* */
-  // pass and email double reusable comps
-  //********************************************************************** */
+
   const [passIsValid, setPassIsValid] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [newName, setNewName] = useState("");
@@ -81,12 +79,11 @@ const SignUp = () => {
 
           <hr />
           <p>sekcja emaili:</p>
-          {/* <EmailDoubleFields
+          <EmailDouble
             setEmailIsValid={setEmailIsValid}
-            setNewEmail={setNewEmail}
             submition={isSubmitted}
             ref={emailRef}
-          /> */}
+          />
           <hr />
           <p>sekcja haseł:</p>
           <PasswordDouble
