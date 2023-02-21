@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import InputField from "../forms/InputField";
-import { INITIAL_PASSWORD_RESETING_STATE } from "../../general/constants";
 import axios from "axios";
 import { API_URL } from "../../general/constants";
 import InfoModal from "../modals/InfoModal";
 import { useNavigate } from "react-router-dom";
+import PasswordDouble from "../forms/PasswordDouble";
 
 const ResetPassword = () => {
   const { resetToken } = useParams();
@@ -13,41 +12,34 @@ const ResetPassword = () => {
   const redirectToSignIn = () => {
     navigate("/signin");
   };
+  const submitButtonRef = useRef();
+  const passRef = useRef();
+  const [passIsValid, setPassIsValid] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // console.log(" resetToken:>> ", resetToken);
-
-  const [passwordPack, setPasswordPack] = useState(
-    INITIAL_PASSWORD_RESETING_STATE
-  );
-
-  const handleChangeInputField = (event) => {
-    // console.log("event.target.value", event.target.value);
-    setPasswordPack({
-      ...passwordPack,
-      [event.target.id]: event.target.value,
-    });
-  };
   //*********************************************************************************** */
   //  http request method
   //********************************************************************************** */
   const sendNewPasswordToServer = async () => {
-    let postPack = passwordPack;
+    let postPack = {
+      password1: passRef.current.value,
+      password2: passRef.current.value,
+    };
     let url = "/password/newpassword/" + resetToken;
     console.clear();
     try {
+      console.log("postPack", postPack);
       const response = await axios.post(API_URL + url, postPack);
 
-      setPasswordPack(INITIAL_PASSWORD_RESETING_STATE);
+      setIsSubmitted(true);
 
       if (response.status === 200) {
         console.log("response :>> ", response);
 
-        setPasswordPack({
-          ...passwordPack,
-          changed: true,
-        });
+        // todo password has changed...
       } else if (response.status === 401) {
         console.log("zły token - nie zmieniono hasła!");
+        // todo bad tooken, pass has not been changed
       }
     } catch (err) {
       // todo depend on error type, set user or message state to false
@@ -57,7 +49,14 @@ const ResetPassword = () => {
   //************************************************************************************ */
   //  password validation
   //************************************************************************************ */
-
+  useEffect(() => {
+    if (passIsValid) {
+      submitButtonRef.current.disabled = false;
+    }
+    if (!passIsValid) {
+      submitButtonRef.current.disabled = true;
+    }
+  }, [passIsValid]);
   //*********************************************************************************** */
   //  form submitting method and sending http request
   //********************************************************************************** */
@@ -72,39 +71,27 @@ const ResetPassword = () => {
   return (
     <>
       <div>Resetowanie starego hasła</div>
-      <div>
-        {passwordPack.changed ? (
-          <InfoModal
-            message="Hasło zostało zmienione, możesz się nim logować"
-            action={redirectToSignIn}
-          />
-        ) : (
-          <p></p>
-        )}
-      </div>
 
       <form onSubmit={handleSubmitForm}>
         <p>Wprowadź nowe hasło:</p>
-        <InputField
-          id="password1"
-          title="Podaj nowe hasło"
-          type="password"
-          value={passwordPack.password1}
-          name="password"
-          onChange={handleChangeInputField}
-        ></InputField>
-
-        <InputField
-          id="password2"
-          title="Powtórz nowe hasło"
-          type="password"
-          value={passwordPack.password2}
-          name="password"
-          onChange={handleChangeInputField}
-        ></InputField>
-
-        <button>Wyślij</button>
+        <PasswordDouble
+          setPassIsValid={setPassIsValid}
+          submition={isSubmitted}
+          ref={passRef}
+        />
+        <button type="submit" ref={submitButtonRef} disabled>
+          Wyślij
+        </button>
       </form>
+
+      <div>
+        <InfoModal
+          message="Hasło zostało zmienione, możesz się nim logować"
+          action={redirectToSignIn}
+        >
+          Logowanie
+        </InfoModal>
+      </div>
     </>
   );
 };

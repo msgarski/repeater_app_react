@@ -12,23 +12,6 @@ export const INITIAL_USER_SIGNUP_STATE = {
   password_confirmation: "",
 };
 
-// export const INITIAL_EMAIL_CONFIRMATION_STATE = {
-//   email1: "",
-//   email2: "",
-//   finished: false,
-//   identity: false,
-//   correctness: false,
-// };
-// todo do zmiany w reset forgotten password component:
-export const INITIAL_PASSWORD_RESETING_STATE = {
-  password1: "",
-  password2: "",
-  finished: false,
-  identity: false,
-  correctness: false,
-  changed: false,
-};
-
 // todo final version for implementing in every places
 export const INITIAL_PASSWORD_VALIDATION_STATE = {
   properLength: false,
