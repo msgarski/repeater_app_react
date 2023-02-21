@@ -12,13 +12,13 @@ export const INITIAL_USER_SIGNUP_STATE = {
   password_confirmation: "",
 };
 
-export const INITIAL_EMAIL_CONFIRMATION_STATE = {
-  email1: "",
-  email2: "",
-  finished: false,
-  identity: false,
-  correctness: false,
-};
+// export const INITIAL_EMAIL_CONFIRMATION_STATE = {
+//   email1: "",
+//   email2: "",
+//   finished: false,
+//   identity: false,
+//   correctness: false,
+// };
 // todo do zmiany w reset forgotten password component:
 export const INITIAL_PASSWORD_RESETING_STATE = {
   password1: "",

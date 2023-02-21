@@ -1,40 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../buttons/CustomButton";
-import { useState } from "react";
+import EmailDouble from "../forms/EmailDouble";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import InputField from "../forms/InputField";
-import {
-  INITIAL_EMAIL_CONFIRMATION_STATE,
-  API_URL,
-} from "../../general/constants";
-import { validateEmail, identityChecking } from "../../general/validators";
+import { API_URL } from "../../general/constants";
 import InfoModal from "../modals/InfoModal";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [userState, setUserState] = useState(true);
   const [messageState, setMessageState] = useState(false);
-  const [emailsPack, setEmailsPack] = useState(
-    INITIAL_EMAIL_CONFIRMATION_STATE
-  );
+  //****************************************************************** */
+  const submitButtonRef = useRef();
+  const emailRef = useRef();
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleEmailAddressInputField = (event) => {
-    setEmailsPack({
-      ...emailsPack,
-      [event.target.id]: event.target.value.trim().toLowerCase(),
-    });
-  };
   //******************************************************************************** */
   //  sending http request method
   //******************************************************************************** */
   const sendForgottenPasswordForm = async () => {
     try {
       const response = await axios.post(API_URL + "/password/checking", {
-        email: emailsPack.email1,
+        email: emailRef.current.value,
       });
       console.clear();
       console.log("oto nasza odpowiedz: ", response.data);
-      setEmailsPack(INITIAL_EMAIL_CONFIRMATION_STATE);
+      setIsSubmitted(true);
       if (response.status === 200) setMessageState(true);
       setUserState(true);
       console.log("response :>> ", response.data);
@@ -46,25 +38,30 @@ const ForgotPassword = () => {
       console.log("error: ", err.response.status);
     }
   };
+  //*********************************************************************** */
+  // Validation section
+  //*************************************************************************** */
+  useEffect(() => {
+    if (emailIsValid) {
+      submitButtonRef.current.disabled = false;
+    }
+    if (!emailIsValid) {
+      submitButtonRef.current.disabled = true;
+    }
+  }, [emailIsValid]);
   //***************************************************************************** */
   //  submitting form method
   //**************************************************************************** */
   const handleSubmitForm = (event) => {
     event.preventDefault();
 
-    if (!identityChecking(emailsPack.email1, emailsPack.email2)) {
-      setEmailsPack({ ...INITIAL_EMAIL_CONFIRMATION_STATE, finished: true });
-    } else if (!validateEmail(emailsPack.email1)) {
-      setEmailsPack({ ...INITIAL_EMAIL_CONFIRMATION_STATE, finished: true });
-    } else {
-      sendForgottenPasswordForm();
-    }
+    sendForgottenPasswordForm();
   };
   const turnBack = () => navigate("/");
-  // const closeModal = () => {};
-  //**************************************************************************************** */
+
+  //***************************************************************************************
   //  JSX code
-  //**************************************************************************************** */
+  //**************************************************************************************
   return (
     <>
       <section>
@@ -75,6 +72,25 @@ const ForgotPassword = () => {
           Na podany poniżej adres email, prześlemy link do zresetowania hasła
         </p>
       </section>
+
+      <div>
+        <form onSubmit={handleSubmitForm}>
+          <hr />
+          <EmailDouble
+            setEmailIsValid={setEmailIsValid}
+            submition={isSubmitted}
+            ref={emailRef}
+          />
+          <hr />
+          <button type="submit" ref={submitButtonRef} disabled>
+            Wyślij
+          </button>
+        </form>
+      </div>
+
+      <div>
+        <CustomButton onClickAction={turnBack}>Wyjście</CustomButton>
+      </div>
 
       <div>
         {messageState ? (
@@ -94,46 +110,6 @@ const ForgotPassword = () => {
         ) : (
           <p></p>
         )}
-      </div>
-
-      <div>
-        {(!emailsPack.identity || !emailsPack.correctness) &&
-        emailsPack.finished ? (
-          <InfoModal message="Podany adres zawierał błąd, lub został źle powtórzony">
-            Wróć
-          </InfoModal>
-        ) : (
-          <p></p>
-        )}
-      </div>
-      <div>
-        <form onSubmit={handleSubmitForm}>
-          <div>
-            <InputField
-              title="Adres e-mail"
-              id="email1"
-              type="text"
-              name="email"
-              value={emailsPack.email1}
-              onChange={handleEmailAddressInputField}
-            />
-          </div>
-          <div>
-            <InputField
-              title="Powtórz adres e-mail"
-              id="email2"
-              type="text"
-              name="email"
-              value={emailsPack.email2}
-              onChange={handleEmailAddressInputField}
-            />
-          </div>
-          <CustomButton type="submit">Wyślij</CustomButton>
-        </form>
-      </div>
-
-      <div>
-        <CustomButton onClickAction={turnBack}>Wyjście</CustomButton>
       </div>
     </>
   );

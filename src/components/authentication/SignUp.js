@@ -5,8 +5,8 @@ import InfoModal from "../modals/InfoModal";
 import EmailDouble from "../forms/EmailDouble";
 import PasswordDouble from "../forms/PasswordDouble";
 import {
-  userExistsMessage,
-  activationLinkMessage,
+  userAlreadyExistsMessage,
+  activationLinkSentMessage,
 } from "../../general/messages";
 
 //************************************************************************ */
@@ -14,7 +14,7 @@ import {
 //************************************************************************ */
 const SignUp = () => {
   const navigate = useNavigate();
-  const submitButtonRef = useRef(); // !czy to potzrzebne???
+  const submitButtonRef = useRef();
   const passRef = useRef();
   const emailRef = useRef();
 
@@ -34,7 +34,7 @@ const SignUp = () => {
   //*************************************************************************** */
 
   //*************************************************************************** */
-  // Form submition method
+  // Form submition section
   //*************************************************************************** */
   useEffect(() => {
     if (passIsValid && emailIsValid) {
@@ -53,9 +53,9 @@ const SignUp = () => {
     let password = passRef.current.value;
     console.log("passwword", password);
 
-    setIsSubmitted(true);
     // todo http request
     // todo czyszczenie danych formularza w requescie
+    setIsSubmitted(true);
     // todo next http request - fill user option data
   };
 
@@ -78,14 +78,12 @@ const SignUp = () => {
           />
 
           <hr />
-          <p>sekcja emaili:</p>
           <EmailDouble
             setEmailIsValid={setEmailIsValid}
             submition={isSubmitted}
             ref={emailRef}
           />
           <hr />
-          <p>sekcja haseł:</p>
           <PasswordDouble
             setPassIsValid={setPassIsValid}
             submition={isSubmitted}
@@ -100,19 +98,19 @@ const SignUp = () => {
         {/* todo dać sekcję modali na zewnątrz */}
         {/* if="userId=='exists'" */}
         <InfoModal
-          message={userExistsMessage}
+          message={userAlreadyExistsMessage}
           action={() => {
             navigate("/forgot");
           }}
         >
           Odzyskiwanie hasła
         </InfoModal>
-
-        <InfoModal message={activationLinkMessage}>
+        <hr />
+        <InfoModal message={activationLinkSentMessage}>
           <a href="http://google.com">Wyjście</a>
         </InfoModal>
       </div>
-
+      <hr />
       <div>
         <button>
           <Link to="/">Powrót do strony początkowej</Link>

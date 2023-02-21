@@ -4,9 +4,6 @@ import {
   EMAIL_VALIDATION_REGEX,
 } from "./constants";
 
-export function emailValidation(emailAddress) {
-  return true;
-}
 export function checkPasswordLength(str) {
   return (
     str.length >= PASSWORD_MIN_MAX_LENGTH[0] &&
@@ -31,11 +28,14 @@ export function identityChecking(str1, str2) {
 export function passwordValidation(password) {
   return true;
 }
+export const hasEmailProperStructure = (email = "none") => {
+  return EMAIL_VALIDATION_REGEX.test(email);
+};
 //todo check if we can delete it:
 export const validateEmail = (email) => {
   return String(email).match(EMAIL_VALIDATION_REGEX);
 };
-export const hasEmailProperStructure = (email = "none") => {
-  // return String(email).match(EMAIL_VALIDATION_REGEX);
-  return EMAIL_VALIDATION_REGEX.test(email);
-};
+// todo czy to potrzebne???
+export function emailValidation(emailAddress) {
+  return true;
+}

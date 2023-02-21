@@ -44,11 +44,6 @@ const PasswordDouble = forwardRef(({ setPassIsValid, submition }, passRef) => {
   //************************************************************************** */
   // Validation section
   //************************************************************************** */
-  // todo delete later
-  const isValid = () => {
-    // do przycisku proby walidacji
-    setPassValidationState(true);
-  };
 
   useEffect(() => {
     // check all validation rules:
@@ -93,6 +88,9 @@ const PasswordDouble = forwardRef(({ setPassIsValid, submition }, passRef) => {
           value={newPasswordsState.password}
           onChange={handleInputFieldToHookObject}
         />
+        <button onClick={showPass} type="button">
+          zobacz hasło
+        </button>
       </div>
       <div>
         <label htmlFor="password_confirmation">Powtórz hasło</label>
@@ -105,14 +103,8 @@ const PasswordDouble = forwardRef(({ setPassIsValid, submition }, passRef) => {
           onChange={handleInputFieldToHookObject}
         />
       </div>
-      <button onClick={showPass} type="button">
-        zobacz hasło
-      </button>
-      <button onClick={isValid} type="button">
-        proba validacji
-      </button>
+
       <section>
-        <div>sekcja walidacji hasła</div>
         <div>
           <p>długość hasła - od 5 do 15 znaków</p>
           {passValidationState.properLength ? <h1>V</h1> : null}{" "}

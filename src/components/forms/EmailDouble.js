@@ -22,7 +22,7 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
   const handleInputFieldToHookObject = (event) => {
     setEmailsState({
       ...newEmailsState,
-      [event.target.id]: event.target.value,
+      [event.target.id]: event.target.value.trim().toLowerCase(),
     });
   };
 
@@ -35,10 +35,7 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
   //**************************************************************************** */
   // Validation Rules Section
   //****************************************************************************** */
-  // todo delete later
-  const isValid = () => {
-    setEmailValidationState(true);
-  };
+
   useEffect(() => {
     setEmailValidationState({
       properLength: !!isStringExists(newEmailsState.email),
@@ -54,11 +51,7 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
     let isEmailGeneralValid = Object.values(emailValidationState).every(
       (val) => val === true
     );
-    console.log(
-      "efekt walidacji emaila: ",
-      emailValidationState,
-      isEmailGeneralValid
-    );
+
     if (isEmailGeneralValid) {
       setEmailIsValid(true);
     }
@@ -82,6 +75,7 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
           onChange={handleInputFieldToHookObject}
           ref={emailRef}
         />
+        {emailValidationState.properStructure ? <h2>OK</h2> : <p>zły adres</p>}
       </div>
 
       <div>
@@ -93,10 +87,13 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
           value={newEmailsState.email_confirmation}
           onChange={handleInputFieldToHookObject}
         />
+        {emailValidationState.properStructure &&
+        emailValidationState.identity ? (
+          <h2>OK</h2>
+        ) : (
+          <p>adresy się nie zgadzają</p>
+        )}
       </div>
-      <button onClick={isValid} type="button">
-        proba validacji
-      </button>
     </>
   );
 });
