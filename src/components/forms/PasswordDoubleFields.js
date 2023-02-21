@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { INITIAL_PAIR_PASSWORD_STATE } from "../../general/constants";
 
 const PasswordDoublefields = ({
+  //! od usunięcia cały komponent
   setPassIsValid,
   setNewPassword,
   submition,

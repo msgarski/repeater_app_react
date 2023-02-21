@@ -1,20 +1,24 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import CustomButton from "../buttons/CustomButton";
 import { useState } from "react";
 import axios from "axios";
-import { API_URL } from "../../general/constants";
 import InputField from "../forms/InputField";
-import { INITIAL_EMAIL_CONFIRMATION_STATE } from "../../general/constants";
+import {
+  INITIAL_EMAIL_CONFIRMATION_STATE,
+  API_URL,
+} from "../../general/constants";
 import { validateEmail, identityChecking } from "../../general/validators";
 import InfoModal from "../modals/InfoModal";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [userState, setUserState] = useState(true);
   const [messageState, setMessageState] = useState(false);
   const [emailsPack, setEmailsPack] = useState(
     INITIAL_EMAIL_CONFIRMATION_STATE
   );
 
-  const handleChangeInputField = (event) => {
+  const handleEmailAddressInputField = (event) => {
     setEmailsPack({
       ...emailsPack,
       [event.target.id]: event.target.value.trim().toLowerCase(),
@@ -29,14 +33,17 @@ const ForgotPassword = () => {
         email: emailsPack.email1,
       });
       console.clear();
-      console.log(response.data);
+      console.log("oto nasza odpowiedz: ", response.data);
       setEmailsPack(INITIAL_EMAIL_CONFIRMATION_STATE);
       if (response.status === 200) setMessageState(true);
       setUserState(true);
       console.log("response :>> ", response.data);
     } catch (err) {
       // todo depend on error type, set user or message state to false
-      console.log("error: ", err);
+      if (err.response.status === 404) {
+        setUserState(false);
+      }
+      console.log("error: ", err.response.status);
     }
   };
   //***************************************************************************** */
@@ -53,16 +60,21 @@ const ForgotPassword = () => {
       sendForgottenPasswordForm();
     }
   };
+  const turnBack = () => navigate("/");
+  const closeModal = () => {};
   //**************************************************************************************** */
   //  JSX code
   //**************************************************************************************** */
   return (
     <>
-      <h1>Odnowienie hasła</h1>
-      <p>
-        Na adres email, podany podczas rejestracji, prześlemy link do
-        zresetowania hasła
-      </p>
+      <section>
+        <header>
+          <h1>Odnowienie hasła</h1>
+        </header>
+        <p>
+          Na podany poniżej adres email, prześlemy link do zresetowania hasła
+        </p>
+      </section>
 
       <div>
         {messageState ? (
@@ -76,16 +88,20 @@ const ForgotPassword = () => {
       </div>
       <div>
         {!userState ? (
-          <InfoModal message="Użytkownik o podanym adresie email, nie istnieje..." />
+          <InfoModal message="Użytkownik o podanym adresie email, nie istnieje...">
+            Wyjście
+          </InfoModal>
         ) : (
           <p></p>
         )}
       </div>
 
       <div>
-        {!(emailsPack.identity || emailsPack.correctness) &&
+        {(!emailsPack.identity || !emailsPack.correctness) &&
         emailsPack.finished ? (
-          <InfoModal message="Podany adres zawierał błąd, lub został źle powtórzony" />
+          <InfoModal message="Podany adres zawierał błąd, lub został źle powtórzony">
+            Wróć
+          </InfoModal>
         ) : (
           <p></p>
         )}
@@ -99,7 +115,7 @@ const ForgotPassword = () => {
               type="text"
               name="email"
               value={emailsPack.email1}
-              onChange={handleChangeInputField}
+              onChange={handleEmailAddressInputField}
             />
           </div>
           <div>
@@ -109,17 +125,15 @@ const ForgotPassword = () => {
               type="text"
               name="email"
               value={emailsPack.email2}
-              onChange={handleChangeInputField}
+              onChange={handleEmailAddressInputField}
             />
           </div>
-          <button>Wyślij</button>
+          <CustomButton type="submit">Wyślij</CustomButton>
         </form>
       </div>
 
       <div>
-        <Link to="/">
-          <button>Wyjście</button>
-        </Link>
+        <CustomButton onClickAction={turnBack}>Wyjście</CustomButton>
       </div>
     </>
   );

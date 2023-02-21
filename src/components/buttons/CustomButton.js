@@ -1,12 +1,8 @@
-const CustomButton = ({
-  type = "button",
-  text = "przycisk",
-  onClickAction,
-}) => {
+const CustomButton = ({ type = "button", onClickAction, children }) => {
   return (
     <>
       <button type={type} onClick={onClickAction}>
-        {text}
+        {children}
       </button>
     </>
   );

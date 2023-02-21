@@ -7,20 +7,26 @@ import {
 export function emailValidation(emailAddress) {
   return true;
 }
-export function checkLengthString(str) {
-  return str.length >= PASSWORD_MIN_MAX_LENGTH[0] &&
-    str.length >= PASSWORD_MIN_MAX_LENGTH[1]
-    ? true
-    : false;
+export function checkPasswordLength(str) {
+  return (
+    str.length >= PASSWORD_MIN_MAX_LENGTH[0] &&
+    str.length <= PASSWORD_MIN_MAX_LENGTH[1]
+  );
 }
 export function checkStringForSpecialChar(str) {
   return SPECIAL_CHAR_REGEX.test(str);
 }
-export function passwordValidation(password) {
-  return true;
+export function isNumberInString(str) {
+  return /[0-9]/.test(str);
 }
 export function identityChecking(str1, str2) {
-  return str1.localeCompare(str2) ? false : true;
+  if (str1 && str2) {
+    return str1.localeCompare(str2) ? false : true;
+  }
+  return false;
+}
+export function passwordValidation(password) {
+  return true;
 }
 export const validateEmail = (email) => {
   return String(email).match(EMAIL_VALIDATION_REGEX);

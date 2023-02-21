@@ -19,7 +19,7 @@ export const INITIAL_EMAIL_CONFIRMATION_STATE = {
   identity: false,
   correctness: false,
 };
-
+// todo do zmiany w reset forgotten password component:
 export const INITIAL_PASSWORD_RESETING_STATE = {
   password1: "",
   password2: "",
@@ -27,6 +27,14 @@ export const INITIAL_PASSWORD_RESETING_STATE = {
   identity: false,
   correctness: false,
   changed: false,
+};
+
+// todo final version for implementing in every places
+export const INITIAL_PASSWORD_VALIDATION_STATE = {
+  properLength: false,
+  specCharExists: false,
+  numberExists: false,
+  identity: false,
 };
 
 export const INITIAL_PAIR_PASSWORD_STATE = {

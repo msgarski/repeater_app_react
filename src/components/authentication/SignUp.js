@@ -2,9 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import InputField from "../forms/InputField";
 import InfoModal from "../modals/InfoModal";
-import ValidationUi from "../forms/ValidationUi";
-import PasswordDoubleFields from "../forms/PasswordDoubleFields";
 import EmailDoubleFields from "../forms/EmailDoubleFields";
+import PasswordDouble from "../forms/PasswordDouble";
 import {
   userExistsMessage,
   activationLinkMessage,
@@ -15,14 +14,14 @@ import {
 //************************************************************************ */
 const SignUp = () => {
   const navigate = useNavigate();
-  const buttonRef = useRef();
+  const submitButtonRef = useRef(); // !czy to potzrzebne???
+  const passRef = useRef();
+  const emailRef = useRef();
   //******************************************************************* */
   // pass and email double reusable comps
   //********************************************************************** */
   const [passIsValid, setPassIsValid] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
-  const [newEmail, setNewEmail] = useState("");
   const [newName, setNewName] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -33,7 +32,7 @@ const SignUp = () => {
   };
 
   //*************************************************************************** */
-  // Http request method
+  // Http request 2 methods
   //*************************************************************************** */
 
   //*************************************************************************** */
@@ -41,16 +40,25 @@ const SignUp = () => {
   //*************************************************************************** */
   useEffect(() => {
     if (passIsValid && emailIsValid) {
-      buttonRef.current.disabled = false;
+      submitButtonRef.current.disabled = false;
+    }
+    if (!passIsValid || !emailIsValid) {
+      submitButtonRef.current.disabled = true;
     }
   }, [passIsValid, emailIsValid]);
 
   const handleSubmitSignUpForm = (event) => {
     console.log("tworzenie konta...");
     event.preventDefault();
+
+    // todo construct request data pack
+    let password = passRef.current.value;
+    console.log("passwword", password);
+
     setIsSubmitted(true);
     // todo http request
     // todo czyszczenie danych formularza w requescie
+    // todo next http request - fill user option data
   };
 
   //************************************************************************** */
@@ -73,24 +81,26 @@ const SignUp = () => {
 
           <hr />
           <p>sekcja emaili:</p>
-          <EmailDoubleFields
+          {/* <EmailDoubleFields
             setEmailIsValid={setEmailIsValid}
             setNewEmail={setNewEmail}
             submition={isSubmitted}
-          />
+            ref={emailRef}
+          /> */}
           <hr />
           <p>sekcja haseł:</p>
-          <PasswordDoubleFields
+          <PasswordDouble
             setPassIsValid={setPassIsValid}
-            setNewPassword={setNewPassword}
             submition={isSubmitted}
+            ref={passRef}
           />
           <hr />
 
-          <button ref={buttonRef} disabled>
+          <button ref={submitButtonRef} disabled>
             Stwórz konto
           </button>
         </form>
+        {/* todo dać sekcję modali na zewnątrz */}
         {/* if="userId=='exists'" */}
         <InfoModal
           message={userExistsMessage}
@@ -100,8 +110,6 @@ const SignUp = () => {
         >
           Odzyskiwanie hasła
         </InfoModal>
-
-        <ValidationUi />
 
         <InfoModal message={activationLinkMessage}>
           <a href="http://google.com">Wyjście</a>
