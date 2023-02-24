@@ -10,8 +10,12 @@ export function checkPasswordLength(str) {
     str.length <= PASSWORD_MIN_MAX_LENGTH[1]
   );
 }
+
+export function checkProperStringLength(str, min) {
+  return str.length >= min;
+}
 export function isStringExists(str) {
-  return str.length;
+  return !!str.length;
 }
 export function checkStringForSpecialChar(str) {
   return SPECIAL_CHAR_REGEX.test(str);
@@ -31,10 +35,7 @@ export function passwordValidation(password) {
 export const hasEmailProperStructure = (email = "none") => {
   return EMAIL_VALIDATION_REGEX.test(email);
 };
-//todo check if we can delete it:
-export const validateEmail = (email) => {
-  return String(email).match(EMAIL_VALIDATION_REGEX);
-};
+
 // todo czy to potrzebne???
 export function emailValidation(emailAddress) {
   return true;

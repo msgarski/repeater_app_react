@@ -8,7 +8,6 @@ import InfoModal from "../modals/InfoModal";
 
 const SignIn = () => {
   const navigate = useNavigate();
-
   const {
     token,
     userId,

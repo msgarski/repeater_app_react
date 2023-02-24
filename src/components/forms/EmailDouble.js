@@ -71,7 +71,7 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
           type="text"
           name="email"
           id="email"
-          value={newEmailsState.email}
+          value={newEmailsState.email || ""}
           onChange={handleInputFieldToHookObject}
           ref={emailRef}
         />

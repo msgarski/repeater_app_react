@@ -36,6 +36,18 @@ export const INITIAL_PAIR_EMAIL_STATE = {
   email_confirmation: "",
 };
 
+export const INITIAL_USER_NAME_STATE = {
+  valid: false,
+  omitted: false,
+};
+
+export const INITIAL_USER_NAME_VALIDATION_STATE = {
+  nonOmitted: true,
+  properLength: false,
+};
+
+export const MINIMUM_USER_NAME_LENGTH = 3;
+
 export const PASSWORD_MIN_MAX_LENGTH = [5, 15];
 // export const ASCII_REGEX = /^[\x00-\x7F]*$/;
 

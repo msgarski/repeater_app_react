@@ -10,6 +10,7 @@ const InputField = forwardRef(
       value = "",
       name = "",
       onChange,
+      actionOnBlur,
     },
     myRef
   ) => {
