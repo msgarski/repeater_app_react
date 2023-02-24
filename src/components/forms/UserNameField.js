@@ -84,7 +84,6 @@ const UserNameField = forwardRef(({ setNameIsValid, submition }, nameRef) => {
   //**************************************************************************** */
   return (
     <>
-      <div>user name</div>
       <input
         type="text"
         name="name"

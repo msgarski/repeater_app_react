@@ -28,7 +28,7 @@ const PasswordDouble = forwardRef(({ setPassIsValid, submition }, passRef) => {
     if (submition) {
       setPasswordsState(INITIAL_PAIR_PASSWORD_STATE);
     }
-  }, [submition]);
+  }, [submition, newPasswordsState]);
 
   const showPass = () => {
     setTypeOfInputField(typeOfInputField ? "" : "password");
@@ -76,7 +76,6 @@ const PasswordDouble = forwardRef(({ setPassIsValid, submition }, passRef) => {
   //************************************************************************** */
   return (
     <>
-      <div>Password section</div>
       <div>
         <label htmlFor="password">Podaj hasło</label>
         <input

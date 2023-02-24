@@ -11,6 +11,7 @@ import {
   userAlreadyExistsMessage,
   activationLinkSentMessage,
 } from "../../general/messages";
+import { INITIAL_USER_OPTIONS_PACK } from "../../general/constants";
 
 //************************************************************************ */
 // Function component
@@ -50,10 +51,10 @@ const SignUp = () => {
         API_URL + "/signup/create",
         userDataRegistrationPack
       );
-      console.log(response.data);
-      console.log("cała odpowiedź ", response.data);
-      setUserIdContext(response.data.userId);
+      console.log("cała odpowiedź ", response.data, response);
       setIsSubmitted(true);
+
+      setUserIdContext(response.data);
     } catch (error) {
       console.log("err, coś poszło nie tak...", error);
       if (error.response.status) {
@@ -62,32 +63,25 @@ const SignUp = () => {
     }
   };
 
-  // const fillOptionsTable = () => {
-  //   /*
-  //    *   Method for filling table of user main options
-  //    *   with default values
-  //    */
+  const fillUserOptionsTable = async () => {
+    /*
+     *   Method for filling table of user main options
+     *   with default values
+     */
 
-  //   // Object with data for filling options table in db:
-  //   const pack2 = {
-  //     learningBatch: this.$store.getters["option/getLearningBatchLimit"],
-  //     learningLim: this.$store.getters["option/getLearningDayLimit"],
-  //     repeatLim: this.$store.getters["option/getRepeatDayLimit"],
-  //     overlearn: this.$store.getters["option/getOverlearning"],
-  //     userId: this.userId,
-  //   };
-
-  //   // Http request to fill user options table in db:
-  //   http
-  //     .post("/options/insertOptions", pack2)
-  //     .then((response) => {
-  //       console.log("odpowiedź serwera na żądanie nr 2: ", response);
-  //     })
-  //     .catch((error) => {
-  //       this.errorMessage = error.message;
-  //       console.error("coś poszło nie tak...", error);
-  //     });
-  // };
+    try {
+      const response = await axios.post(
+        API_URL + "/options/insertOptions",
+        INITIAL_USER_OPTIONS_PACK
+      );
+      console.log("response", response);
+    } catch (error) {
+      console.log("err, coś poszło nie tak...", error);
+      if (error.response.status) {
+        // setErrorCode(error.response.status);
+      }
+    }
+  };
 
   //*************************************************************************** */
   // Form submition section
@@ -113,8 +107,11 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    // todo next http request - fill user option data
-    // fillOptionsTable();
+    if (userId) {
+      INITIAL_USER_OPTIONS_PACK.userId = userId;
+      console.log("lista opchji", INITIAL_USER_OPTIONS_PACK);
+      fillUserOptionsTable();
+    }
   }, [userId]);
 
   //************************************************************************** */

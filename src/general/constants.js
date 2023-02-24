@@ -58,3 +58,12 @@ export const SPECIAL_CHARS_ALLOWED_IN_PASSWORD =
 
 export const EMAIL_VALIDATION_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const INITIAL_USER_OPTIONS_PACK = {
+  userId: "",
+  learningBatchLimit: 10,
+  learningDayLimit: 20,
+  repeatDayLimit: 30,
+  fastRepeatBatch: 10,
+  overlearning: true,
+};
