@@ -21,9 +21,10 @@ export const INITIAL_PASSWORD_VALIDATION_STATE = {
 };
 
 export const INITIAL_EMAIL_VALIDATION_STATE = {
-  properLength: false,
+  nonOmittedFirst: true,
+  nonOmittedSecond: true,
   properStructure: false,
-  identity: false,
+  identity: true,
 };
 
 export const INITIAL_PAIR_PASSWORD_STATE = {

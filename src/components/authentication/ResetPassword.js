@@ -39,7 +39,6 @@ const ResetPassword = () => {
         // todo password has changed...
       } else if (response.status === 401) {
         console.log("zły token - nie zmieniono hasła!");
-        // todo bad tooken, pass has not been changed
       }
     } catch (err) {
       // todo depend on error type, set user or message state to false

@@ -5,6 +5,7 @@ import axios from "axios";
 import { API_URL } from "../../general/constants";
 import UserNameField from "../forms/UserNameField";
 import InfoModal from "../modals/InfoModal";
+import RegisterSubmitMessages from "../forms/RegisterSubmitMessages";
 import EmailDouble from "../forms/EmailDouble";
 import PasswordDouble from "../forms/PasswordDouble";
 import {
@@ -38,7 +39,7 @@ const SignUp = () => {
     password_confirmation: passRef.current.value,
   };
 
-  let initialyRendered = useRef(false);
+  let alreadyRendered = useRef(false);
 
   //********************************************************************* */
 
@@ -87,7 +88,8 @@ const SignUp = () => {
   // Form submition section
   //*************************************************************************** */
   useEffect(() => {
-    if (initialyRendered.current) {
+    console.log("renderowanie głównego useeffecta");
+    if (alreadyRendered.current) {
       if (passIsValid && emailIsValid && nameIsValid) {
         submitButtonRef.current.disabled = false;
       }
@@ -95,7 +97,7 @@ const SignUp = () => {
         submitButtonRef.current.disabled = true;
       }
     } else {
-      initialyRendered.current = true;
+      alreadyRendered.current = true;
       nameRef.current.focus();
     }
   }, [passIsValid, emailIsValid, nameIsValid]);
@@ -145,6 +147,13 @@ const SignUp = () => {
           <button ref={submitButtonRef} disabled>
             Stwórz konto
           </button>
+          <RegisterSubmitMessages
+            nameIsValid={nameIsValid}
+            emailIsValid={emailIsValid}
+            passIsValid={passIsValid}
+          />
+
+          <hr />
         </form>
 
         {/* todo dać sekcję modali na zewnątrz */}

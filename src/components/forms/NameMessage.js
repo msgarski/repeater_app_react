@@ -16,3 +16,8 @@ const NameMessage = ({ exists, properLength }) => {
 };
 
 export default NameMessage;
+// Second: {
+//   "false-false": <p>Pole nie może być puste</p>,
+//   "true-false": <p>Oba pola muszą być takie same...</p>,
+//   "true-true": <p>No, teraz jest SUPER !</p>,
+// }[keySecond],

@@ -1,4 +1,5 @@
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect, forwardRef, useRef } from "react";
+import EmailDoubleMessages from "./EmailDoubleMessages";
 import {
   INITIAL_PAIR_EMAIL_STATE,
   INITIAL_EMAIL_VALIDATION_STATE,
@@ -18,6 +19,7 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
   const [emailValidationState, setEmailValidationState] = useState(
     INITIAL_EMAIL_VALIDATION_STATE
   );
+  const alreadyRendered = useRef(false);
 
   const handleInputFieldToHookObject = (event) => {
     setEmailsState({
@@ -37,21 +39,27 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
   //****************************************************************************** */
 
   useEffect(() => {
-    setEmailValidationState({
-      properLength: !!isStringExists(newEmailsState.email),
-      properStructure: hasEmailProperStructure(newEmailsState.email),
-      identity: identityChecking(
-        newEmailsState.email,
-        newEmailsState.email_confirmation
-      ),
-    });
+    if (alreadyRendered.current) {
+      // console.log("nonOmittedfirst: ", isStringExists(newEmailsState.email));
+      setEmailValidationState({
+        nonOmittedFirst: isStringExists(newEmailsState.email),
+        nonOmittedSecond: isStringExists(newEmailsState.email_confirmation),
+        properStructure: hasEmailProperStructure(newEmailsState.email),
+        identity: identityChecking(
+          newEmailsState.email,
+          newEmailsState.email_confirmation
+        ),
+      });
+    } else {
+      alreadyRendered.current = true;
+    }
   }, [newEmailsState]);
 
   useEffect(() => {
     let isEmailGeneralValid = Object.values(emailValidationState).every(
       (val) => val === true
     );
-
+    // console.log("isEmailGeneralValid", isEmailGeneralValid);
     if (isEmailGeneralValid) {
       setEmailIsValid(true);
     }
@@ -59,6 +67,31 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
       setEmailIsValid(false);
     }
   }, [emailValidationState, setEmailIsValid]);
+
+  const validateEmailField = (moveDirection) => {
+    switch (moveDirection) {
+      case "first":
+        console.log("zejscie z pola first");
+        setEmailValidationState({
+          ...emailValidationState,
+          properStructure: hasEmailProperStructure(newEmailsState.email),
+          nonOmittedFirst: isStringExists(newEmailsState.email),
+        });
+        break;
+      case "second":
+        setEmailValidationState({
+          ...emailValidationState,
+          nonOmittedSecond: isStringExists(newEmailsState.email_confirmation),
+          identity: identityChecking(
+            newEmailsState.email,
+            newEmailsState.email_confirmation
+          ),
+        });
+        break;
+      default:
+        setEmailValidationState(INITIAL_EMAIL_VALIDATION_STATE);
+    }
+  };
 
   //************************************************************************** */
   // JSX code section
@@ -73,10 +106,14 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
           id="email"
           value={newEmailsState.email || ""}
           onChange={handleInputFieldToHookObject}
+          onBlur={() => validateEmailField("first")}
           ref={emailRef}
         />
-        {emailValidationState.properStructure ? <h2>OK</h2> : <p>zły adres</p>}
       </div>
+      <EmailDoubleMessages
+        emailValidationState={emailValidationState}
+        fieldId="First"
+      />
 
       <div>
         <label>Powtórz adres e-mail</label>
@@ -86,14 +123,13 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
           id="email_confirmation"
           value={newEmailsState.email_confirmation}
           onChange={handleInputFieldToHookObject}
+          onBlur={() => validateEmailField("second")}
         />
-        {emailValidationState.properStructure &&
-        emailValidationState.identity ? (
-          <h2>OK</h2>
-        ) : (
-          <p>adresy się nie zgadzają</p>
-        )}
       </div>
+      <EmailDoubleMessages
+        emailValidationState={emailValidationState}
+        fieldId="Second"
+      />
     </>
   );
 });
