@@ -23,7 +23,7 @@ export const INITIAL_PASSWORD_VALIDATION_STATE = {
 export const INITIAL_EMAIL_VALIDATION_STATE = {
   nonOmittedFirst: true,
   nonOmittedSecond: true,
-  properStructure: false,
+  properStructure: true,
   identity: true,
 };
 
