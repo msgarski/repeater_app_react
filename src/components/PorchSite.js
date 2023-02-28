@@ -5,7 +5,7 @@ import useAuthentication from "../hooks/useAuthentication";
 //  Main Block
 //**************************************************************************** */
 const PorchSite = () => {
-  const { token, userId, userLogOut } = useAuthentication();
+  const { token, userId } = useAuthentication();
 
   console.log("token i id: ", token, userId);
 
@@ -15,19 +15,19 @@ const PorchSite = () => {
   return (
     <>
       <div>
-        <button>Powtórki na szybko...</button>
+        {/* router-link :to="'/repeating/' + courseId" */}
+        {/* @click="setChooseCourse, czyli: getBatchForRepeat()" */}
+        {/* nieuzywane przyciski nie powinny być wogóle widoczne na stronie */}
+        <button disabled>Powtórki na szybko...</button>
       </div>
       <div>
-        <button>Zadania na dzisiaj</button>
+        {/* nie opracowano akcji */}
+        <button disabled>Zadania na dzisiaj</button>
       </div>
       <div>
-        <button>Przejdź do programu</button>
-      </div>
-      <div>
-        <Link to="../">
-          <button type="button" onClick={userLogOut}>
-            Wyloguj
-          </button>
+        {/* router-link to="/mainscreen" */}
+        <Link to="mainscreen">
+          <button>Przejdź do programu</button>
         </Link>
       </div>
     </>

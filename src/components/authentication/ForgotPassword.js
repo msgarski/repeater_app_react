@@ -25,11 +25,11 @@ const ForgotPassword = () => {
         email: emailRef.current.value,
       });
       console.clear();
-      console.log("oto nasza odpowiedz: ", response.data);
+      // console.log("oto nasza odpowiedz: ", response.data);
       setIsSubmitted(true);
       if (response.status === 200) setMessageState(true);
       setUserState(true);
-      console.log("response :>> ", response.data);
+      // console.log("response :>> ", response.data);
     } catch (err) {
       // todo depend on error type, set user or message state to false
       if (err.response.status === 404) {
@@ -42,6 +42,10 @@ const ForgotPassword = () => {
   // Validation section
   //*************************************************************************** */
   useEffect(() => {
+    console.log(
+      "sprawdzenie refa w forgocie: ",
+      submitButtonRef.current.disabled
+    );
     if (emailIsValid) {
       submitButtonRef.current.disabled = false;
     }
@@ -55,7 +59,7 @@ const ForgotPassword = () => {
   const handleSubmitForm = (event) => {
     event.preventDefault();
 
-    sendForgottenPasswordForm();
+    // sendForgottenPasswordForm();
   };
   const turnBack = () => navigate("/");
 
@@ -82,7 +86,7 @@ const ForgotPassword = () => {
             ref={emailRef}
           />
           <hr />
-          <button type="submit" ref={submitButtonRef} disabled>
+          <button type="button" ref={submitButtonRef} disabled>
             Wyślij
           </button>
         </form>

@@ -7,6 +7,9 @@ import PorchSite from "../components/PorchSite";
 import ResetPassword from "../components/authentication/ResetPassword";
 import AccuntActivation from "../components/authentication/AccountActivation";
 import ProtectedPage from "../components/authentication/ProtectedPage";
+import MainScreen from "../components/MainScreen";
+import NewCourse from "../components/courses/NewCourse";
+import MainOptions from "../components/settings/MainOptions";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +26,30 @@ const AppRoutes = () => {
           element={
             <ProtectedPage>
               <PorchSite />
+            </ProtectedPage>
+          }
+        ></Route>
+        <Route
+          path="porch/mainscreen"
+          element={
+            <ProtectedPage>
+              <MainScreen />
+            </ProtectedPage>
+          }
+        ></Route>
+        <Route
+          path="porch/mainscreen/newcourse"
+          element={
+            <ProtectedPage>
+              <NewCourse />
+            </ProtectedPage>
+          }
+        ></Route>
+        <Route
+          path="porch/mainscreen/mainoptions"
+          element={
+            <ProtectedPage>
+              <MainOptions />
             </ProtectedPage>
           }
         ></Route>

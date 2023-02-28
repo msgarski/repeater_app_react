@@ -15,7 +15,10 @@ const NavHeader = () => {
           <section>
             <div>{userName}</div>
             <div>
-              <CustomButton text="Logout" onClickAction={userLogOut} />
+              <CustomButton text="Logout" onClickAction={userLogOut}>
+                Wyloguj
+              </CustomButton>
+              <hr />
             </div>
           </section>
         </header>
