@@ -8,3 +8,11 @@ export const http1 = axios.create({
     "X-Requested-With": "XMLHttpRequest",
   },
 });
+
+export const setAuthTokenHeader = (token) => {
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common["Authorization"];
+  }
+};

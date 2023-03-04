@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import useAuthentication from "../hooks/useAuthentication";
+import axios from "axios";
+import { API_URL } from "../general/constants";
 
 //**************************************************************************** */
 //  Main Block
@@ -7,21 +9,35 @@ import useAuthentication from "../hooks/useAuthentication";
 const MainScreen = () => {
   const { token, userId } = useAuthentication();
 
+  //******************************************************************************** */
+  //  Http request method
+  //******************************************************************************** */
+
+  const getAllCoursesForUser = async () => {
+    try {
+      const response = await axios.get(
+        // ! a token gdzie wsadzić?
+        API_URL + "/course/getallcoursesforuser/" + userId
+      );
+      console.log("response.data: ", response.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
   return (
     <>
-      <div>Ekran główny</div>
-
       <div>
-        <Link to="newcourse">
+        <Link to="/newcourse">
           <button>Dodaj kurs</button>
         </Link>
       </div>
       <div>
         {/* <router-link to="/settings"> */}
-        <Link to="mainoptions">
+        <Link to="/mainoptions">
           <button>Opcje główne</button>
         </Link>
       </div>
@@ -52,80 +68,14 @@ const MainScreen = () => {
                     <h1>Loading...</h1>
             </div>
             <div > */}
-        {/* <button @click="backToPrevious" class="button">Powrót</button> */}
+        <div>
+          <Link to="/porch">
+            <button>Powrót</button>
+          </Link>
+        </div>
       </div>
     </>
   );
 };
 
 export default MainScreen;
-
-// import UserCourse from './course/UserCourse.vue'
-// import http from '../plugins/axios.js'
-
-// export default {
-//     name: 'MainScreen',
-//     components: {
-//         'user-course': UserCourse
-//     },
-//     data(){
-//         return{
-//             courses     : null,
-//             coursesInfo : null,
-//             userId      : this.$store.getters.getUserId,
-//             toCourse    : null,
-//             coursesAreLoaded    :   false,
-//             coursesInfoAreLoaded    :   false
-//         };
-//     },
-//     created(){
-//         this.getCoursesFullInfo();
-//     },
-//     mounted(){
-
-//         const url = "/course/getallcoursesforuser/" + this.userId;
-
-//         http.get(url)
-//         .then(response => {
-//             this.courses = response.data
-//             console.log('dane po odebraniu w mainscreenie: ', response.data)
-//         })
-//         .then(()=>{
-//             this.coursesAreLoaded = true;
-
-//         })
-//         .catch(error => {
-//             this.errorMessage = error.message;
-//             console.error("coś poszło nie tak...", error);
-//         });
-
-//     },
-//     methods: {
-//         backToPrevious: function(event){
-//             this.$router.push('/porch');
-//            // alert('nic się nie stało')
-//         },
-//         getCoursesFullInfo(){
-//             const url = "/courseQueries/getFullInfoOfUserCourses/" + this.userId;
-
-//             http.get(url)
-//             .then(response => {
-//                 this.$store.dispatch('course/setAllCourses', response.data);
-//                 console.log('dane z requesta:', response.data)
-//                 let sto = this.$store.getters['course/getCourseInfoById']
-
-//                 console.log('ze stora na koniec wypeniania pasków kursów:', sto.find(el=>el.course_id == 1))
-
-//             })
-//             .then(()=>{
-//                 //this.getLessonsFullInfo();
-//                 this.coursesInfoAreLoaded = true;
-//             })
-//             .catch(error => {
-//                 this.errorMessage = error.message;
-//                 console.error("coś poszło nie tak...", error);
-//             });
-//         },
-
-//     }
-// }

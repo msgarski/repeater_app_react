@@ -8,7 +8,7 @@ import {
 import useAuthentication from "../../hooks/useAuthentication";
 
 const ProtectedPage = ({ children }) => {
-  const { token, userId } = useAuthentication();
+  const { token } = useAuthentication();
   //******************************************************************** */
   // JSX code
   //******************************************************************** */

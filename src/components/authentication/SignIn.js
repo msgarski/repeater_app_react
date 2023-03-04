@@ -41,6 +41,7 @@ const SignIn = () => {
   //****************************************************************************** */
   const sendCredentials = async () => {
     try {
+      console.log("credentialsPack", credentialsPack);
       const response = await axios.post(
         API_URL + "/login/entering",
         credentialsPack

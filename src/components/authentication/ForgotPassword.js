@@ -59,7 +59,7 @@ const ForgotPassword = () => {
   const handleSubmitForm = (event) => {
     event.preventDefault();
 
-    // sendForgottenPasswordForm();
+    sendForgottenPasswordForm();
   };
   const turnBack = () => navigate("/");
 
@@ -86,7 +86,7 @@ const ForgotPassword = () => {
             ref={emailRef}
           />
           <hr />
-          <button type="button" ref={submitButtonRef} disabled>
+          <button type="submit" ref={submitButtonRef} disabled>
             Wyślij
           </button>
         </form>

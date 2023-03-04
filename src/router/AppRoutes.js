@@ -30,29 +30,29 @@ const AppRoutes = () => {
           }
         ></Route>
         <Route
-          path="porch/mainscreen"
+          path="mainscreen"
           element={
             <ProtectedPage>
               <MainScreen />
             </ProtectedPage>
           }
-        ></Route>
+        />
         <Route
-          path="porch/mainscreen/newcourse"
+          path="newcourse"
           element={
             <ProtectedPage>
               <NewCourse />
             </ProtectedPage>
           }
-        ></Route>
+        />
         <Route
-          path="porch/mainscreen/mainoptions"
+          path="mainoptions"
           element={
             <ProtectedPage>
               <MainOptions />
             </ProtectedPage>
           }
-        ></Route>
+        />
         <Route path="resetpass" element={<ResetPassword />}>
           <Route path=":resetToken" element={<ResetPassword />}></Route>
         </Route>
