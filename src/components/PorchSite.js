@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { useEffect, usestate, useRef } from "react";
 import useAuthentication from "../hooks/useAuthentication";
 import axios from "axios";
-import { setAuthTokenHeader } from "../general/axiosMethods";
+import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
 import { API_URL } from "../general/constants";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const PorchSite = () => {
-  const { token, userId } = useAuthentication();
+  const { token, userId, setTokenContext } = useAuthentication();
 
   // todo set boolean value of list of repeats existing
 
@@ -28,7 +28,13 @@ const PorchSite = () => {
       const response = await axios.get(API_URL + url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response.data: ", response.data);
+      console.log("response.data: ", response);
+
+      let result = shouldWeUpdateContextJWT(response, token);
+      if (result) {
+        setTokenContext(response.data.newToken);
+      }
+
       // sending list to redux
     } catch (error) {
       console.error(
