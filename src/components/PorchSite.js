@@ -64,7 +64,7 @@ const PorchSite = () => {
         </button>
       </div>
       <div>
-        <button disabled>Coś, co nie może już czekać...</button>
+        <button disabled>Coś nie może już czekać...</button>
       </div>
       <div>
         <Link to="/mainscreen">
