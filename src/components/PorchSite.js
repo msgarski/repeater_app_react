@@ -1,28 +1,30 @@
+import axios from "axios";
+import useAuthentication from "../hooks/useAuthentication";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import useAuthentication from "../hooks/useAuthentication";
-import axios from "axios";
 import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
 import { API_URL } from "../general/constants";
+
+import { addListCoursesWithRepeats } from "../store/slices/fastRepeatsSlice";
+import { useDispatch } from "react-redux";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const PorchSite = () => {
+  const dispatch = useDispatch();
+
   const { token, userId, setTokenContext } = useAuthentication();
-  const [errorCode, setErrorCode] = useState(null);
+  const [courseList, setCourseList] = useState([]);
+  const firstTimeRef = useRef(true);
+
+  // const [errorCode, setErrorCode] = useState(null);
 
   // todo set boolean value of list of repeats existing
 
   // todo according to above, display or hide button on the site
 
   // todo implement action for fastRepeats button
-
-  // console.log("token i id w porchSite: ", token, userId);
-
-  const listCoursesWithRepeats = () => {
-    //
-  };
 
   //**************************************************************************** */
   //  Http requests
@@ -33,9 +35,12 @@ const PorchSite = () => {
       const response = await axios.get(API_URL + url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response.data: ", response);
+      console.log("response.data: ", response.data.payload);
+
+      setCourseList(response.data.payload);
 
       let result = shouldWeUpdateContextJWT(response, token);
+
       if (result) {
         setTokenContext(response.data.newToken);
       }
@@ -49,8 +54,19 @@ const PorchSite = () => {
   };
 
   useEffect(() => {
+    if (firstTimeRef.current) {
+      firstTimeRef.current = false;
+      console.log("znowu");
+    } else {
+      console.log("courseList", courseList);
+      dispatch(addListCoursesWithRepeats(courseList));
+    }
+  }, [courseList, dispatch]);
+
+  useEffect(() => {
     getNumOfRepeatCards();
-  });
+  }, []);
+
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -59,9 +75,7 @@ const PorchSite = () => {
       <div>
         {/* router-link :to="'/repeating/' + courseId" */}
 
-        <button disabled onClick={listCoursesWithRepeats}>
-          Powtórki na dowolną chwilę...
-        </button>
+        <button disabled>Powtórki na dowolną chwilę...</button>
       </div>
       <div>
         <button disabled>Coś nie może już czekać...</button>

@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import store from "./store";
+import { Provider as StoreProvider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import "./index.scss";
 import { Provider as ContextProvider } from "./components/contexts/LoggedInContext";
@@ -11,7 +13,9 @@ root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <ContextProvider>
-      <App />
+      <StoreProvider store={store}>
+        <App />
+      </StoreProvider>
     </ContextProvider>
   </BrowserRouter>
   // </React.StrictMode>
