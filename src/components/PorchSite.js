@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, usestate, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import useAuthentication from "../hooks/useAuthentication";
 import axios from "axios";
 import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
@@ -10,6 +10,7 @@ import { API_URL } from "../general/constants";
 //**************************************************************************** */
 const PorchSite = () => {
   const { token, userId, setTokenContext } = useAuthentication();
+  const [errorCode, setErrorCode] = useState(null);
 
   // todo set boolean value of list of repeats existing
 
@@ -17,7 +18,11 @@ const PorchSite = () => {
 
   // todo implement action for fastRepeats button
 
-  console.log("token i id w porchSite: ", token, userId);
+  // console.log("token i id w porchSite: ", token, userId);
+
+  const listCoursesWithRepeats = () => {
+    //
+  };
 
   //**************************************************************************** */
   //  Http requests
@@ -34,10 +39,9 @@ const PorchSite = () => {
       if (result) {
         setTokenContext(response.data.newToken);
       }
-
-      // sending list to redux
     } catch (error) {
       console.error(
+        //! zrobić wspólne reagowanie na różne kody błędów
         "coś poszło nie tak w getNumOfRepeatCards...",
         error.response.status
       );
@@ -54,16 +58,15 @@ const PorchSite = () => {
     <>
       <div>
         {/* router-link :to="'/repeating/' + courseId" */}
-        {/* @click="setChooseCourse, czyli: getBatchForRepeat()" */}
-        {/* nieuzywane przyciski nie powinny być wogóle widoczne na stronie */}
-        <button disabled>Powtórki na szybko...</button>
+
+        <button disabled onClick={listCoursesWithRepeats}>
+          Powtórki na dowolną chwilę...
+        </button>
       </div>
       <div>
-        {/* nie opracowano akcji */}
-        <button disabled>Zadania na dzisiaj</button>
+        <button disabled>Coś, co nie może już czekać...</button>
       </div>
       <div>
-        {/* router-link to="/mainscreen" */}
         <Link to="/mainscreen">
           <button>Przejdź do programu</button>
         </Link>
