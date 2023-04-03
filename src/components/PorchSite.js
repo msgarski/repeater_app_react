@@ -79,7 +79,6 @@ const PorchSite = () => {
       {!showRepeats ? (
         <div>
           <div>
-            {/* router-link :to="'/repeating/' + courseId" */}
             <button
               disabled={!repeatsList}
               onClick={() => setShowRepeats(true)}
@@ -99,13 +98,20 @@ const PorchSite = () => {
       ) : (
         <div>
           <p>Lista kursów z powtórkami</p>
+
           <ul>
+            {/* router-link :to="'/repeating/' + courseId" ale w vue tam jest pusto...*/}
+
             {repeatsList.map((el) => {
               return (
-                <li key={el.name}>
-                  <div>{el.name}</div>
-                  <div>{el.repeats} powtórek</div>
-                </li>
+                <Link to={`/repeatphase/${el.course_id}`}>
+                  <li key={el.course_id}>
+                    <div>{el.name}</div>
+                    <div>
+                      {el.repeats} powtórek w kursie: {el.course_id}
+                    </div>
+                  </li>
+                </Link>
               );
             })}
           </ul>

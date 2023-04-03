@@ -10,6 +10,7 @@ import ProtectedPage from "../components/authentication/ProtectedPage";
 import MainScreen from "../components/MainScreen";
 import NewCourse from "../components/courses/NewCourse";
 import MainOptions from "../components/settings/MainOptions";
+import RepeatPhase from "../components/presentations/RepeatPhase";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +59,9 @@ const AppRoutes = () => {
         </Route>
         <Route path="accountactivation" element={<AccuntActivation />}>
           <Route path=":activationToken" element={<AccuntActivation />}></Route>
+        </Route>
+        <Route path="repeatphase" element={<RepeatPhase />}>
+          <Route path=":course_id" element={<RepeatPhase />}></Route>
         </Route>
       </Routes>
     </>
