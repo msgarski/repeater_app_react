@@ -106,14 +106,14 @@ const PorchSite = () => {
 
             {repeatsList.map((el) => {
               return (
-                <Link to={`/repeatphase/${el.course_id}`}>
-                  <li key={el.course_id}>
+                <li key={el.course_id}>
+                  <Link to={`/repeatphase/${el.course_id}`}>
                     <div>{el.name}</div>
                     <div>
                       {el.repeats} powtórek w kursie: {el.course_id}
                     </div>
-                  </li>
-                </Link>
+                  </Link>
+                </li>
               );
             })}
           </ul>
