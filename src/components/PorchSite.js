@@ -43,6 +43,8 @@ const PorchSite = () => {
 
       setCourseList(response.data.payload);
 
+      console.log("response.data: ", response.data.newToken);
+
       // constant part of every http request:
       let result = shouldWeUpdateContextJWT(response, token);
       if (result) {
@@ -58,12 +60,12 @@ const PorchSite = () => {
   };
 
   useEffect(() => {
-    console.clear();
+    // console.clear();
     if (firstTimeRef.current) {
       firstTimeRef.current = false;
     } else {
       dispatch(addListCoursesWithRepeatsNums(courseList));
-      console.log("state repeats", repeatsList);
+      // console.log("state repeats", repeatsList);
     }
   }, [courseList, dispatch]);
 

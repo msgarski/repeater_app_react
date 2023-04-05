@@ -1,30 +1,65 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import useAuthentication from "../hooks/useAuthentication";
 import axios from "axios";
 import { API_URL } from "../general/constants";
+import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
+import { useDispatch, useSelector } from "react-redux";
+import { addListUserCoursesWithFullInfo } from "../store/slices/allCoursesSlice";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const MainScreen = () => {
-  const { token, userId } = useAuthentication();
+  const { token, userId, setTokenContext } = useAuthentication();
+  const firstTimeRef = useRef(true);
+  const dispatch = useDispatch();
+  const [allCoursesList, setAllCoursesList] = useState([]);
+  const allUserCoursesInfo = useSelector((state) => {
+    return state.courses;
+  });
 
   //******************************************************************************** */
   //  Http request method
   //******************************************************************************** */
 
-  const getAllCoursesForUser = async () => {
+  //******************************************************************************* */
+  // General user courses info request
+  //******************************************************************************* */
+
+  const getUserCoursesFullInfo = async () => {
     try {
       const response = await axios.get(
-        // ! a token gdzie wsadzić?
-        API_URL + "/course/getallcoursesforuser/" + userId
+        API_URL + "/courseQueries/getFullInfoOfUserCourses/" + userId,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      console.log("response.data: ", response.data);
+      console.log("response.data: ", response.data.payload);
+      setAllCoursesList(response.data.payload);
+
+      let result = shouldWeUpdateContextJWT(response, token);
+      if (result) {
+        setTokenContext(response.data.newToken);
+      }
     } catch (error) {
       console.log("error", error);
     }
   };
 
+  useEffect(() => {
+    // console.clear();
+    if (firstTimeRef.current) {
+      firstTimeRef.current = false;
+    } else {
+      dispatch(addListUserCoursesWithFullInfo(allCoursesList));
+    }
+  }, [allCoursesList, dispatch]);
+
+  useEffect(() => {
+    // getAllCoursesForUser();
+    getUserCoursesFullInfo();
+  }, []);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
