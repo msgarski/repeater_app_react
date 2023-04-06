@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CoursesList from "./listings/CoursesList";
 import { useEffect, useRef, useState } from "react";
 import useAuthentication from "../hooks/useAuthentication";
 import axios from "axios";
@@ -6,16 +7,18 @@ import { API_URL } from "../general/constants";
 import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
 import { useDispatch, useSelector } from "react-redux";
 import { addListUserCoursesWithFullInfo } from "../store/slices/allCoursesSlice";
+import LoadingSpinner from "./elements/LoadingSpinner";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const MainScreen = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { token, userId, setTokenContext } = useAuthentication();
   const firstTimeRef = useRef(true);
   const dispatch = useDispatch();
   const [allCoursesList, setAllCoursesList] = useState([]);
-  const allUserCoursesInfo = useSelector((state) => {
+  const allUserCourses = useSelector((state) => {
     return state.courses;
   });
 
@@ -42,6 +45,7 @@ const MainScreen = () => {
       if (result) {
         setTokenContext(response.data.newToken);
       }
+      setIsLoading(false);
     } catch (error) {
       console.log("error", error);
     }
@@ -57,8 +61,8 @@ const MainScreen = () => {
   }, [allCoursesList, dispatch]);
 
   useEffect(() => {
-    // getAllCoursesForUser();
-    getUserCoursesFullInfo();
+    setTimeout(getUserCoursesFullInfo, 500);
+    // getUserCoursesFullInfo();
   }, []);
   //*************************************************************************** */
   //  JSX code
@@ -71,7 +75,6 @@ const MainScreen = () => {
         </Link>
       </div>
       <div>
-        {/* <router-link to="/settings"> */}
         <Link to="/mainoptions">
           <button>Opcje główne</button>
         </Link>
@@ -84,31 +87,21 @@ const MainScreen = () => {
 
         <div>Powtórki na dziś</div>
       </div>
-
-      <div>
-        {/* <div v-if="coursesAreLoaded"> 
-                <ul v-if="coursesInfoAreLoaded">
-                    <user-course 
-                        v-for="course in courses" 
-                            :key="course.course_id"
-                            :courseId="course.course_id"
-                            :name="course.name" 
-                            :description="course.description">
-                    </user-course>
-                </ul>
-                <div v-else-if="!coursesInfoAreLoaded"><h1>Loading ...</h1></div>
-                <div v-else-if="courses.length == 0">Nie masz żadnych kursów, <router-link to="/newcourse">Dodaj jakiś kurs</router-link></div>
-            </div> */}
-        {/* <div v-else-if="!coursesAreLoaded">
-                    <h1>Loading...</h1>
-            </div>
-            <div > */}
+      {!isLoading ? (
         <div>
-          <Link to="/porch">
-            <button>Powrót</button>
-          </Link>
+          {allUserCourses.length ? (
+            <CoursesList courses={allUserCourses} />
+          ) : (
+            <p>nie masz jeszcze utworzonych żadnych kursów</p>
+          )}
         </div>
-      </div>
+      ) : (
+        <LoadingSpinner />
+      )}
+
+      <Link to="/porch">
+        <button>Powrót</button>
+      </Link>
     </>
   );
 };
