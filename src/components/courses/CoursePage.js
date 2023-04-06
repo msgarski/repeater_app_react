@@ -1,8 +1,8 @@
-const InnerCourse = () => {
+const CoursePage = () => {
   return (
     <>
       <div>Inner Course</div>
     </>
   );
 };
-export default InnerCourse;
+export default CoursePage;

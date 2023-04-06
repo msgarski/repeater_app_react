@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
-import CoursesList from "./listings/CoursesList";
 import { useEffect, useRef, useState } from "react";
-import useAuthentication from "../hooks/useAuthentication";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import CourseDetails from "./courses/CourseDetails";
+import useAuthentication from "../hooks/useAuthentication";
 import { API_URL } from "../general/constants";
 import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
-import { useDispatch, useSelector } from "react-redux";
 import { addListUserCoursesWithFullInfo } from "../store/slices/allCoursesSlice";
 import LoadingSpinner from "./elements/LoadingSpinner";
 
@@ -90,7 +90,7 @@ const MainScreen = () => {
       {!isLoading ? (
         <div>
           {allUserCourses.length ? (
-            <CoursesList courses={allUserCourses} />
+            <CourseDetails courses={allUserCourses} />
           ) : (
             <p>nie masz jeszcze utworzonych żadnych kursów</p>
           )}

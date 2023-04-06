@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
-const CoursesList = ({ courses }) => {
+const CourseDetails = ({ courses }) => {
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -13,6 +13,7 @@ const CoursesList = ({ courses }) => {
       <ul>
         {courses.map((el) => {
           return (
+            // to ma być link do innercourse
             <li key={el.course_id}>
               <Link to={`/repeatphase/${el.course_id}`}>
                 <div>{el.name}</div>
@@ -36,4 +37,4 @@ const CoursesList = ({ courses }) => {
   );
 };
 
-export default CoursesList;
+export default CourseDetails;
