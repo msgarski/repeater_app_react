@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import ListElement from "./ListElement";
 
 //**************************************************************************** */
 //  Main Block
@@ -13,26 +14,31 @@ const CourseDetails = ({ courses }) => {
       <ul>
         {courses.map((el) => {
           return (
-            // to ma być link do innercourse
             <li key={el.course_id}>
-              <Link to={`/repeatphase/${el.course_id}`}>
-                <div>{el.name}</div>
-                <div>
-                  {el.repeats} powtórek w kursie: {el.course_id}
-                </div>
+              <Link to={`/course/${el.course_id}`}>
+                {/* element listy jako komponent */}
+                <ListElement
+                  name={el.name}
+                  description={el.description}
+                  lessons={el.lesson_amount}
+                  cards={el.card_amount}
+                  forLearning={el.for_learning}
+                  repeats={el.for_repeating}
+                />
               </Link>
             </li>
           );
         })}
       </ul>
-      <div>
-        {/* 
-                            :key="course.course_id"
-                            :courseId="course.course_id"
-                            :name="course.name" 
-                            :description="course.description">
+      {/* 
+                            name
+                            opis
+                            lekcji w kursie
+                            kart w kursie
+                            do nauki
+                            do powtórki
+
              */}
-      </div>
     </>
   );
 };

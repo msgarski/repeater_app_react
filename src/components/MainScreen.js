@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import CourseDetails from "./courses/CourseDetails";
+import CoursesList from "./courses/CoursesList";
 import useAuthentication from "../hooks/useAuthentication";
 import { API_URL } from "../general/constants";
 import { shouldWeUpdateContextJWT } from "../general/axiosMethods";
@@ -90,7 +90,7 @@ const MainScreen = () => {
       {!isLoading ? (
         <div>
           {allUserCourses.length ? (
-            <CourseDetails courses={allUserCourses} />
+            <CoursesList courses={allUserCourses} />
           ) : (
             <p>nie masz jeszcze utworzonych żadnych kursów</p>
           )}

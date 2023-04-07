@@ -64,7 +64,7 @@ const AppRoutes = () => {
         <Route path="repeatphase" element={<RepeatPhase />}>
           <Route path=":course_id" element={<RepeatPhase />}></Route>
         </Route>
-        <Route path="coursepage" element={<CoursePage />}>
+        <Route path="course" element={<CoursePage />}>
           <Route path=":course_id" element={<CoursePage />}></Route>
         </Route>
       </Routes>
