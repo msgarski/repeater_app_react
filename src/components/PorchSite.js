@@ -85,6 +85,14 @@ const PorchSite = () => {
               disabled={!repeatsList}
               onClick={() => setShowRepeats(true)}
             >
+              Dodaj nowe słowo
+            </button>
+          </div>
+          <div>
+            <button
+              disabled={!repeatsList}
+              onClick={() => setShowRepeats(true)}
+            >
               Powtórki na dowolną chwilę...
             </button>
           </div>

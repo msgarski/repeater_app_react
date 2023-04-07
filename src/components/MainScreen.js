@@ -26,10 +26,6 @@ const MainScreen = () => {
   //  Http request method
   //******************************************************************************** */
 
-  //******************************************************************************* */
-  // General user courses info request
-  //******************************************************************************* */
-
   const getUserCoursesFullInfo = async () => {
     try {
       const response = await axios.get(
@@ -80,12 +76,10 @@ const MainScreen = () => {
         </Link>
       </div>
       <div>
-        <div>
-          <p>Twoje kursy:</p>
-        </div>
-        <div>Oczekujące testy</div>
-
         <div>Powtórki na dziś</div>
+      </div>
+      <div>
+        <p>Twoje kursy:</p>
       </div>
       {!isLoading ? (
         <div>

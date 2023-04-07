@@ -7,6 +7,7 @@ const ListElement = ({
   lessons,
 }) => {
   return (
+    //todo its only skeleton...
     <>
       <p>
         {name} opis: {description} lekcji: {lessons} kart: {cards} do nauki:{" "}

@@ -12,6 +12,7 @@ import NewCourse from "../components/courses/NewCourse";
 import MainOptions from "../components/settings/MainOptions";
 import RepeatPhase from "../components/presentations/RepeatPhase";
 import CoursePage from "../components/courses/CoursePage";
+import NewLesson from "../components/lessons/NewLesson";
 
 const AppRoutes = () => {
   return (
@@ -66,6 +67,9 @@ const AppRoutes = () => {
         </Route>
         <Route path="course" element={<CoursePage />}>
           <Route path=":course_id" element={<CoursePage />}></Route>
+        </Route>
+        <Route path="newlesson" element={<NewLesson />}>
+          <Route path=":course_id" element={<NewLesson />}></Route>
         </Route>
       </Routes>
     </>
