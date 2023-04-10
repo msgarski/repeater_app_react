@@ -8,8 +8,13 @@ const allLessonsSlice = createSlice({
       state.length = 0;
       action.payload.forEach((el, i, a) => state.push(el));
     },
+    addOneCourseLessons: (state, action) => {
+      state.length = 0;
+      action.payload.forEach((el, i, a) => state.push(el));
+    },
   },
 });
 
-export const { addAllUserLessons } = allLessonsSlice.actions;
+export const { addAllUserLessons, addOneCourseLessons } =
+  allLessonsSlice.actions;
 export const lessonsReducer = allLessonsSlice.reducer;

@@ -2,10 +2,11 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import LoadingSpinner from "../elements/LoadingSpinner";
 import LessonsList from "../lessons/LessonsList";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { API_URL } from "../../general/constants";
 import axios from "axios";
 import useAuthentication from "../../hooks/useAuthentication";
+import { addAllUserLessons } from "../../store/slices/allLessonsSlice";
 
 //**************************************************************************** */
 //  Main Block
@@ -20,16 +21,21 @@ const CoursePage = () => {
     return state.courses;
   });
   const course = courses.find((el) => el.course_id === course_id);
+  const [listOfLessons, setListOfLessons] = useState([]);
+  const lessons = useSelector((state) => {
+    return state.lessons;
+  });
   console.clear();
-  // console.log("course", course);
 
   useEffect(() => {
     if (course.lesson_amount) {
-      // getCourseLessons();
       getFullInfoOfUserLessons();
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(addAllUserLessons(listOfLessons));
+  }, [listOfLessons]);
   //******************************************************************************** */
   //  Http request method
   //******************************************************************************** */
@@ -41,25 +47,26 @@ const CoursePage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("response.data full lessons: ", response.data);
+      //todo jak przekazać user_id???
+      setListOfLessons(response.data.payload);
     } catch (error) {
       console.log("error", error);
     }
   };
 
-  const getCourseLessons = async () => {
-    try {
-      const response = await axios.get(
-        API_URL + "/course/getInsideCourse/" + course_id,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log("response.data", response.data);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  // const getCourseLessons = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       API_URL + "/course/getInsideCourse/" + course_id,
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
+  //     console.log("response.data", response.data);
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
 
   //*************************************************************************** */
   //  JSX code
@@ -83,20 +90,13 @@ const CoursePage = () => {
 
       <div>
         {course.lesson_amount > 0 ? (
-          <ul>
-            {/* <LessonsList lessons={}/> */}
-            {/*
-                    :lessonId="lesson.lesson_id"
-                    :name="lesson.name"
-                    :description="lesson.description" */}
-          </ul>
+          <LessonsList lessons={lessons} />
         ) : (
           <div>
             <h2>Nie stworzyłeś jeszcze lekcji do tego kursu...</h2>
             <button>Dodaj lekcję</button>
           </div>
         )}
-        {/* v-else-if="!lessonsInfoIsLoaded" */}
         <LoadingSpinner />
       </div>
     </>

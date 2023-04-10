@@ -1,4 +1,4 @@
-const ListElement = ({
+const CourseBar = ({
   name,
   description,
   forLearning,
@@ -17,4 +17,4 @@ const ListElement = ({
   );
 };
 
-export default ListElement;
+export default CourseBar;
