@@ -25,11 +25,9 @@ const ForgotPassword = () => {
         email: emailRef.current.value,
       });
       console.clear();
-      // console.log("oto nasza odpowiedz: ", response.data);
       setIsSubmitted(true);
       if (response.status === 200) setMessageState(true);
       setUserState(true);
-      // console.log("response :>> ", response.data);
     } catch (err) {
       // todo depend on error type, set user or message state to false
       if (err.response.status === 404) {

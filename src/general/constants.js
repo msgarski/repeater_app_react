@@ -11,6 +11,10 @@ export const INITIAL_USER_SIGNUP_STATE = {
   password: "",
   password_confirmation: "",
 };
+export const INITIAL_NEW_COURSE_DATA = {
+  name: "",
+  description: "",
+};
 
 // todo final version for implementing in every places
 export const INITIAL_PASSWORD_VALIDATION_STATE = {

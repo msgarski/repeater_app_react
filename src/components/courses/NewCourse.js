@@ -1,50 +1,93 @@
 import useAuthentication from "../../hooks/useAuthentication";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import InputField from "../forms/InputField";
+import TextareaField from "../forms/TextareaField";
+import { INITIAL_NEW_COURSE_DATA } from "../../general/constants";
+import {
+  checkProperStringLength,
+  isStringExists,
+} from "../../general/validators";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const NewCourse = () => {
   const { token, userId } = useAuthentication();
+  const [newCourse, setNewCourse] = useState(INITIAL_NEW_COURSE_DATA);
+  const navigate = useNavigate();
+
+  const handleInputFieldToHookObject = (event) => {
+    setNewCourse({
+      ...newCourse,
+      [event.target.id]: event.target.value,
+    });
+  };
+
+  //******************************************************************************** */
+  //  Http request method
+  //******************************************************************************** */
+  const requestData = {
+    name: newCourse.name,
+    description: newCourse.description,
+    user_id: userId,
+  };
+
+  const addNewCourse = async () => {
+    try {
+      console.log("uruchomione tworzenie kursu...");
+      const response = await axios.post("/course/createCourse", requestData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log("response from new course: ", response);
+      //todo redirecting to mainscreen, or to new course page
+      setNewCourse(INITIAL_NEW_COURSE_DATA);
+      // navigate(-1);
+    } catch (error) {
+      console.log("error from creating new course: ", error);
+    }
+  };
+
+  const submitHandler = (event) => {
+    console.log("submit formularza");
+    isStringExists(newCourse.name);
+    checkProperStringLength(newCourse.name, 3);
+
+    event.preventDefault();
+    addNewCourse();
+  };
 
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
   return (
     <>
-      {/* <div>Użytkownik jast zalogowany? {{ isLoggedIn }}</div> */}
       <div>
         <h3>Tworzenie nowego kursu</h3>
       </div>
-      <form>
+      <form onSubmit={submitHandler}>
+        <InputField
+          type="text"
+          name="name"
+          id="name"
+          placeholder="min. 3 znaki"
+          value={newCourse.name}
+          onChange={handleInputFieldToHookObject}
+        />
         <div>
-          <label htmlFor="name">Nazwa</label>
-          <input type="text" name="name" id="name" />
-        </div>
-
-        <div>
-          <label htmlFor="description">Opis</label>
-          <textarea
+          <TextareaField
             rows="5"
             cols="50"
             id="description"
             name="description"
             placeholder="Tematyka kursu..."
-          ></textarea>
+            value={newCourse.description}
+            onChange={handleInputFieldToHookObject}
+          />
         </div>
-
-        {/* <div>
-                <label >Rodzaj</label>
-                <select name="genre"  id="genre">
-                    <option selected value="private">Prywatny</option>
-                    <option value="public">Publiczny</option>
-                </select>
-            </div> */}
-
         <div>
-          <div>
-            <button type="button">Dodaj kurs</button>
-          </div>
+          <button type="submit">Dodaj kurs</button>
         </div>
       </form>
 
