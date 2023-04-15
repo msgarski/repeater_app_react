@@ -94,7 +94,9 @@ const CoursePage = () => {
         ) : (
           <div>
             <h2>Nie stworzyłeś jeszcze lekcji do tego kursu...</h2>
-            <button>Dodaj lekcję</button>
+            <Link to={`/newlesson/${course_id}`}>
+              <button>Stwórz pierwszą lekcję</button>
+            </Link>
           </div>
         )}
         <LoadingSpinner />
