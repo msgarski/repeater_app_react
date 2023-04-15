@@ -41,9 +41,9 @@ const NewCourse = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("response from new course: ", response);
-      //todo redirecting to mainscreen, or to new course page
       setNewCourse(INITIAL_NEW_COURSE_DATA);
       navigate(-1);
+      // todo or redirecting to new course page...
     } catch (error) {
       console.log("error from creating new course: ", error);
     }
