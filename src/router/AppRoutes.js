@@ -14,6 +14,8 @@ import RepeatPhase from "../components/presentations/RepeatPhase";
 import CoursePage from "../components/courses/CoursePage";
 import NewLesson from "../components/lessons/NewLesson";
 import LessonPage from "../components/lessons/LessonPage";
+import SingleImport from "../components/cards/SingleImport";
+import MassImport from "../components/cards/MassImport";
 
 const AppRoutes = () => {
   return (
@@ -74,6 +76,12 @@ const AppRoutes = () => {
         </Route>
         <Route path="lesson" element={<LessonPage />}>
           <Route path=":lesson_id" element={<LessonPage />}></Route>
+        </Route>
+        <Route path="singleimport" element={<SingleImport />}>
+          <Route path=":lesson_id" element={<SingleImport />}></Route>
+        </Route>
+        <Route path="massimport" element={<MassImport />}>
+          <Route path=":lesson_id" element={<MassImport />}></Route>
         </Route>
       </Routes>
     </>

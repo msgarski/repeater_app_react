@@ -1,7 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import LessonTable from "./LessonTable";
 
 const LessonPage = () => {
   const { lesson_id } = useParams();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -11,12 +13,14 @@ const LessonPage = () => {
         </div>
         <div>
           <div>
-            <button>dodaj wiele kart</button>
-            {/* <router-link :to="'/massimport/' + lessonId"> */}
+            <Link to={`/massimport/${lesson_id}`}>
+              <button>dodaj wiele kart</button>
+            </Link>
           </div>
           <div>
-            {/* <router-link :to="'/singleimport/' + lessonId"> */}
-            <button>dodaj karty pojedynczo</button>
+            <Link to={`/singleimport/${lesson_id}`}>
+              <button>dodaj karty pojedynczo</button>
+            </Link>
           </div>
         </div>
       </div>
@@ -25,7 +29,7 @@ const LessonPage = () => {
         <div>
           <div>
             <div>
-              <label for="tryouts">Do nauki:</label>
+              <label>Do nauki:</label>
             </div>
             <div>
               <button>Ucz się</button>
@@ -38,11 +42,11 @@ const LessonPage = () => {
             <button>Powtarzaj</button>
           </div>
         </div>
-
-        {/* <lesson-table :lessonId="lessonId"></lesson-table> */}
-
+        <hr />
+        <LessonTable lessonId={lesson_id} />
+        <hr />
         <div>
-          <button>Powrót do widoku kursu</button>
+          <button onClick={() => navigate(-1)}>Powrót do widoku kursu</button>
         </div>
       </div>
     </>

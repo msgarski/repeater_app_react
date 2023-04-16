@@ -1,4 +1,5 @@
-const LessonTable = () => {
+const LessonTable = ({ lessonId }) => {
+  console.log("lessonId z propsa: ", lessonId);
   // filteredCards() {
   //             return this.cards.filter(c => {
   //                 if(this.filter == '') return true;

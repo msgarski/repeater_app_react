@@ -15,7 +15,7 @@ const LessonsList = ({ lessons }) => {
           return (
             <li key={el.lesson_id}>
               <Link to={`/lesson/${el.lesson_id}`}>
-                <LessonBar name={el.name} />
+                <LessonBar name={el.name} lessonId={el.lesson_id} />
               </Link>
             </li>
           );

@@ -60,7 +60,7 @@ const PorchSite = () => {
   };
 
   useEffect(() => {
-    // console.clear();
+    console.clear();
     if (firstTimeRef.current) {
       firstTimeRef.current = false;
     } else {
@@ -80,14 +80,11 @@ const PorchSite = () => {
     <>
       {!showRepeats ? (
         <div>
-          <div>
-            <button
-              disabled={!repeatsList}
-              onClick={() => setShowRepeats(true)}
-            >
-              Dodaj nowe słowo
-            </button>
-          </div>
+          {/* <div>
+            <Link to={`/singleimport/${lesson_id}`}>
+              <button>Dodaj nowe słowo</button>
+            </Link>
+          </div> */}
           <div>
             <button
               disabled={!repeatsList}
