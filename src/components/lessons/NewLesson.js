@@ -16,7 +16,7 @@ import {
 const NewLesson = () => {
   const navigate = useNavigate();
   const { course_id } = useParams();
-  const { token, userId } = useAuthentication();
+  const { token, userId, setTokenContext } = useAuthentication();
   const [newLesson, setNewLesson] = useState(INITIAL_NEW_COURSE_DATA);
 
   const handleInputFieldToHookObject = (event) => {
@@ -34,6 +34,7 @@ const NewLesson = () => {
     name: newLesson.name,
     description: newLesson.description,
     courseId: course_id,
+    user_id: userId,
   };
 
   const addNewLesson = async () => {
@@ -45,7 +46,7 @@ const NewLesson = () => {
       console.log("response from new course: ", response);
       //todo redirecting to mainscreen, or to new course page
       setNewLesson(INITIAL_NEW_COURSE_DATA);
-      //! set new token !!!
+      setTokenContext(response.data);
       navigate(-1);
     } catch (error) {
       console.log("error from creating new course: ", error);

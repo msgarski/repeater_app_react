@@ -14,7 +14,7 @@ import {
 //  Main Block
 //**************************************************************************** */
 const NewCourse = () => {
-  const { token, userId } = useAuthentication();
+  const { token, userId, setTokenContext } = useAuthentication();
   const [newCourse, setNewCourse] = useState(INITIAL_NEW_COURSE_DATA);
   const navigate = useNavigate();
 
@@ -42,9 +42,9 @@ const NewCourse = () => {
       });
       console.log("response from new course: ", response);
       setNewCourse(INITIAL_NEW_COURSE_DATA);
+      setTokenContext(response.data);
       navigate(-1);
       // todo or redirecting to new course page...
-      //! set new token !!!
     } catch (error) {
       console.log("error from creating new course: ", error);
     }

@@ -35,7 +35,7 @@ const SingleImport = () => {
     sentence: singleCard.sentence,
     image: singleCard.image,
     priority: singleCard.priority,
-    userId: userId,
+    user_id: userId,
   };
   const addSingleCard = async () => {
     try {
@@ -43,9 +43,9 @@ const SingleImport = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("response z dodania karty: ", response);
-      // setTokenContext(response.newToken);
+      setTokenContext(response.data);
       setSingleCard(INITIAL_SINGLE_CARD_DATA_PACK);
-      //! set new token !!!
+      console.log("token nowy: ", token);
       //todo redirecting???
     } catch (error) {
       console.log("error", error);
