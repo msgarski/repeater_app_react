@@ -68,19 +68,54 @@ const AppRoutes = () => {
         <Route path="repeatphase" element={<RepeatPhase />}>
           <Route path=":course_id" element={<RepeatPhase />}></Route>
         </Route>
-        <Route path="course" element={<CoursePage />}>
+        <Route
+          path="course"
+          element={
+            <ProtectedPage>
+              <CoursePage />
+            </ProtectedPage>
+          }
+        >
           <Route path=":course_id" element={<CoursePage />}></Route>
         </Route>
-        <Route path="newlesson" element={<NewLesson />}>
+        <Route
+          path="newlesson"
+          element={
+            <ProtectedPage>
+              <NewLesson />
+            </ProtectedPage>
+          }
+        >
           <Route path=":course_id" element={<NewLesson />}></Route>
         </Route>
-        <Route path="lesson" element={<LessonPage />}>
+        <Route
+          path="lesson"
+          element={
+            <ProtectedPage>
+              <LessonPage />
+            </ProtectedPage>
+          }
+        >
           <Route path=":lesson_id" element={<LessonPage />}></Route>
         </Route>
-        <Route path="singleimport" element={<SingleImport />}>
+        <Route
+          path="singleimport"
+          element={
+            <ProtectedPage>
+              <SingleImport />
+            </ProtectedPage>
+          }
+        >
           <Route path=":lesson_id" element={<SingleImport />}></Route>
         </Route>
-        <Route path="massimport" element={<MassImport />}>
+        <Route
+          path="massimport"
+          element={
+            <ProtectedPage>
+              <MassImport />
+            </ProtectedPage>
+          }
+        >
           <Route path=":lesson_id" element={<MassImport />}></Route>
         </Route>
       </Routes>
