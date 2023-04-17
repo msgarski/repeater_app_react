@@ -72,3 +72,11 @@ export const INITIAL_USER_OPTIONS_PACK = {
   fastRepeatBatch: 10,
   overlearning: true,
 };
+export const INITIAL_SINGLE_CARD_DATA_PACK = {
+  question: "",
+  answer: "",
+  pronounciation: "",
+  sentence: "",
+  image: null,
+  priority: false,
+};

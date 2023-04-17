@@ -44,6 +44,7 @@ const NewCourse = () => {
       setNewCourse(INITIAL_NEW_COURSE_DATA);
       navigate(-1);
       // todo or redirecting to new course page...
+      //! set new token !!!
     } catch (error) {
       console.log("error from creating new course: ", error);
     }

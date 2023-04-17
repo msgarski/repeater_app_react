@@ -18,15 +18,26 @@ const InputField = forwardRef(
       <>
         <div>
           <label htmlFor={id}>{title}</label>
-          <input
-            type={type}
-            placeholder={placeholder}
-            onChange={onChange}
-            id={id}
-            name={name}
-            value={value}
-            ref={myRef}
-          />
+          {type === "checkbox" ? (
+            <input
+              type="checkbox"
+              onChange={onChange}
+              id={id}
+              name={name}
+              checked={value}
+              ref={myRef}
+            />
+          ) : (
+            <input
+              type={type}
+              placeholder={placeholder}
+              onChange={onChange}
+              id={id}
+              name={name}
+              value={value}
+              ref={myRef}
+            />
+          )}
         </div>
       </>
     );

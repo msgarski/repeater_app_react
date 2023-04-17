@@ -45,6 +45,7 @@ const NewLesson = () => {
       console.log("response from new course: ", response);
       //todo redirecting to mainscreen, or to new course page
       setNewLesson(INITIAL_NEW_COURSE_DATA);
+      //! set new token !!!
       navigate(-1);
     } catch (error) {
       console.log("error from creating new course: ", error);
