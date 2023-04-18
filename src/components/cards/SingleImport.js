@@ -5,7 +5,7 @@ import {
   INITIAL_SINGLE_CARD_DATA_PACK,
 } from "../../general/constants";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import InputField from "../forms/InputField";
 import TextareaField from "../forms/TextareaField";
 
@@ -51,11 +51,9 @@ const SingleImport = () => {
       console.log("error", error);
     }
   };
-  // useEffect(() => {}, singleCard);
 
   const handleAddCardForm = (event) => {
     event.preventDefault();
-    console.log("singleCard skład: ", singleCard);
     addSingleCard();
   };
   //*************************************************************************** */

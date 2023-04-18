@@ -80,3 +80,8 @@ export const INITIAL_SINGLE_CARD_DATA_PACK = {
   image: null,
   priority: false,
 };
+
+export const INITIAL_MASS_CARDS_DATA_PACK = {
+  cardsInput: "",
+  priority: false,
+};
