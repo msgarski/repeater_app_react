@@ -18,7 +18,10 @@ const MassImport = () => {
   const handleInputFieldToHookObject = (event) => {
     setCardsInput({
       ...cardsInput,
-      [event.target.id]: event.target.checked || event.target.value,
+      [event.target.id]:
+        event.target.type === "checkbox"
+          ? !cardsInput.priority
+          : event.target.value,
     });
   };
   //******************************************************************************** */
@@ -41,7 +44,7 @@ const MassImport = () => {
         }
       );
       console.log("response", response);
-      // setTokenContext(response.data);
+      setTokenContext(response.data);
       setCardsInput(INITIAL_MASS_CARDS_DATA_PACK);
     } catch (error) {
       console.log("error from massImporting", error.message);
@@ -50,7 +53,7 @@ const MassImport = () => {
 
   const handleMassImportForm = (event) => {
     event.preventDefault();
-    console.log("cardsInput wygląd zestawu: ", cardsInput);
+    // console.log("cardsInput wygląd zestawu: ", cardsInput);
     addManyCards();
   };
   //*************************************************************************** */

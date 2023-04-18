@@ -13,6 +13,7 @@ import TextareaField from "../forms/TextareaField";
 //  Main Block
 //**************************************************************************** */
 const SingleImport = () => {
+  console.clear();
   const { token, userId, setTokenContext } = useAuthentication();
   const navigate = useNavigate();
   const { lesson_id } = useParams();
@@ -21,7 +22,10 @@ const SingleImport = () => {
   const handleInputFieldToHookObject = (event) => {
     setSingleCard({
       ...singleCard,
-      [event.target.id]: event.target.checked || event.target.value,
+      [event.target.id]:
+        event.target.type === "checkbox"
+          ? !singleCard.priority
+          : event.target.value,
     });
   };
   //******************************************************************************** */
@@ -53,6 +57,7 @@ const SingleImport = () => {
   };
 
   const handleAddCardForm = (event) => {
+    console.log("singleCard wygląd zestawu: ", singleCard);
     event.preventDefault();
     addSingleCard();
   };
