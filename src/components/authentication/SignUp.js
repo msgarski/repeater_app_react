@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthentication from "../../hooks/useAuthentication";
 import axios from "axios";
-import { API_URL } from "../../general/constants";
+import { API_URL, INITIAL_USER_OPTIONS_PACK } from "../../general/constants";
 import UserNameField from "../forms/UserNameField";
 import InfoModal from "../modals/InfoModal";
 import RegisterSubmitMessages from "../forms/RegisterSubmitMessages";
@@ -12,37 +12,27 @@ import {
   userAlreadyExistsMessage,
   activationLinkSentMessage,
 } from "../../general/messages";
-import { INITIAL_USER_OPTIONS_PACK } from "../../general/constants";
-
 //************************************************************************ */
 // Function component
 //************************************************************************ */
 const SignUp = () => {
   const navigate = useNavigate();
-
   const submitButtonRef = useRef();
   const passRef = useRef("");
   const emailRef = useRef("");
   const nameRef = useRef("");
-
   const [passIsValid, setPassIsValid] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [nameIsValid, setNameIsValid] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
   const { userId, setUserIdContext } = useAuthentication();
-
   const userDataRegistrationPack = {
     name: nameRef.current.value,
     email: emailRef.current.value,
     password: passRef.current.value,
     password_confirmation: passRef.current.value,
   };
-
   let alreadyRendered = useRef(false);
-
-  //********************************************************************* */
-
   //*************************************************************************** */
   // Http request 2 methods
   //*************************************************************************** */
@@ -52,24 +42,19 @@ const SignUp = () => {
         API_URL + "/signup/create",
         userDataRegistrationPack
       );
-      console.log("cała odpowiedź ", response.data, response);
       setIsSubmitted(true);
-
       setUserIdContext(response.data);
     } catch (error) {
       console.log("err, coś poszło nie tak...", error);
       if (error.response.status) {
-        // setErrorCode(error.response.status);
       }
     }
   };
-
   const fillUserOptionsTable = async () => {
     /*
      *   Method for filling table of user main options
      *   with default values
      */
-
     try {
       const response = await axios.post(
         API_URL + "/options/insertOptions",
@@ -83,12 +68,10 @@ const SignUp = () => {
       }
     }
   };
-
   //*************************************************************************** */
   // Form submition section
   //*************************************************************************** */
   useEffect(() => {
-    console.log("renderowanie głównego useeffecta");
     if (alreadyRendered.current) {
       if (passIsValid && emailIsValid && nameIsValid) {
         submitButtonRef.current.disabled = false;
@@ -101,28 +84,22 @@ const SignUp = () => {
       nameRef.current.focus();
     }
   }, [passIsValid, emailIsValid, nameIsValid]);
-
   const handleSubmitSignUpForm = (event) => {
-    console.log("tworzenie konta...");
     event.preventDefault();
     registerNewUser();
   };
-
   useEffect(() => {
     if (userId) {
       INITIAL_USER_OPTIONS_PACK.userId = userId;
-      console.log("lista opchji", INITIAL_USER_OPTIONS_PACK);
       fillUserOptionsTable();
     }
   }, [userId]);
-
   //************************************************************************** */
   // JSX code section
   //************************************************************************** */
   return (
     <>
       <h1>Rejestracja</h1>
-
       <div>
         <form onSubmit={handleSubmitSignUpForm}>
           <UserNameField
@@ -143,7 +120,6 @@ const SignUp = () => {
             ref={passRef}
           />
           <hr />
-
           <button ref={submitButtonRef} disabled>
             Stwórz konto
           </button>
@@ -152,11 +128,8 @@ const SignUp = () => {
             emailIsValid={emailIsValid}
             passIsValid={passIsValid}
           />
-
           <hr />
         </form>
-
-        {/* todo dać sekcję modali na zewnątrz */}
         <InfoModal
           message={userAlreadyExistsMessage}
           action={() => {
@@ -179,5 +152,4 @@ const SignUp = () => {
     </>
   );
 };
-
 export default SignUp;

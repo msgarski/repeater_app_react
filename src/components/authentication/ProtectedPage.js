@@ -1,12 +1,8 @@
-import {
-  Routes,
-  Route,
-  NavLink,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useAuthentication from "../../hooks/useAuthentication";
-
+//************************************************************************ */
+// Function component
+//************************************************************************ */
 const ProtectedPage = ({ children }) => {
   const { token } = useAuthentication();
   //******************************************************************** */
@@ -17,5 +13,4 @@ const ProtectedPage = ({ children }) => {
   }
   return children;
 };
-
 export default ProtectedPage;

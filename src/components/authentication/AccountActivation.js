@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { API_URL } from "../../general/constants";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-
 //************************************************************************ */
 // Function component
 //************************************************************************ */
@@ -11,11 +10,9 @@ const AccuntActivation = () => {
   const { activationToken } = useParams();
   const navigate = useNavigate();
   const [userActivationState, setUserActivationState] = useState(false);
-
   //*************************************************************************** */
-  // Http request 2 methods
+  // Http request
   //*************************************************************************** */
-
   useEffect(() => {
     const activateAccount = async () => {
       try {
@@ -25,10 +22,9 @@ const AccuntActivation = () => {
         console.log(response);
         setUserActivationState(true);
       } catch (error) {
-        // ! rozpatrzyć kilka opcji: -przeterminowany token -nieprawidłowy token
         console.error(
           "coś poszło nie tak podczas aktywacji konta użytkownika...",
-          error
+          error.message
         );
       }
     };
@@ -54,5 +50,4 @@ const AccuntActivation = () => {
     </>
   );
 };
-
 export default AccuntActivation;

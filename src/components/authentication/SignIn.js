@@ -5,43 +5,31 @@ import { useState } from "react";
 import useAuthentication from "../../hooks/useAuthentication";
 import InputField from "../forms/InputField";
 import InfoModal from "../modals/InfoModal";
-
+//************************************************************************ */
+// Function component
+//************************************************************************ */
 const SignIn = () => {
   const navigate = useNavigate();
-  const {
-    token,
-    userId,
-    setTokenContext,
-    setUserIdContext,
-    setUserNameContext,
-  } = useAuthentication();
-
-  console.log("token i id z signin: ", token, userId);
-
+  const { setTokenContext, setUserIdContext, setUserNameContext } =
+    useAuthentication();
   const [credentialsPack, setCredentialsPack] = useState(
     INITIAL_CREDENTIALS_STATE
   );
   const [errorType, setErrorCode] = useState();
-
   const clearErrors = () => {
     setErrorCode(null);
   };
-
-  // todo because the same method exists in ForgotPassword component
-
   const handleInputFieldToHookObject = (event) => {
     setCredentialsPack({
       ...credentialsPack,
       [event.target.id]: event.target.value,
     });
   };
-
   //****************************************************************************** */
   // http request method
   //****************************************************************************** */
   const sendCredentials = async () => {
     try {
-      console.log("credentialsPack", credentialsPack);
       const response = await axios.post(
         API_URL + "/login/entering",
         credentialsPack
@@ -51,19 +39,16 @@ const SignIn = () => {
       setUserNameContext(response.data.userName);
       navigate("/porch");
     } catch (error) {
-      console.log("err", error);
       if (error.response.status) {
         setErrorCode(error.response.status);
       }
     }
   };
-
   const handleSubmitEvent = (event) => {
     event.preventDefault();
     sendCredentials();
     setCredentialsPack(INITIAL_CREDENTIALS_STATE);
   };
-
   //**************************************************************************************** */
   // JSX code
   //**************************************************************************************** */
@@ -94,7 +79,6 @@ const SignIn = () => {
           }[errorType]
         }
       </div>
-
       <div>
         <form onSubmit={handleSubmitEvent}>
           <InputField
@@ -105,7 +89,6 @@ const SignIn = () => {
             value={credentialsPack.email}
             onChange={handleInputFieldToHookObject}
           />
-
           <InputField
             title="Hasło"
             id="password"
@@ -124,7 +107,6 @@ const SignIn = () => {
             <button>Cofnij</button>
           </Link>
         </div>
-
         <div>
           <Link to="/forgot">
             <button>Odzyskiwanie konta</button>
@@ -134,5 +116,4 @@ const SignIn = () => {
     </>
   );
 };
-
 export default SignIn;

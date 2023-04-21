@@ -5,17 +5,17 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { API_URL } from "../../general/constants";
 import InfoModal from "../modals/InfoModal";
-
+//************************************************************************ */
+// Function component
+//************************************************************************ */
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [userState, setUserState] = useState(true);
   const [messageState, setMessageState] = useState(false);
-  //****************************************************************** */
   const submitButtonRef = useRef();
   const emailRef = useRef();
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
   //******************************************************************************** */
   //  sending http request method
   //******************************************************************************** */
@@ -28,12 +28,11 @@ const ForgotPassword = () => {
       setIsSubmitted(true);
       if (response.status === 200) setMessageState(true);
       setUserState(true);
-    } catch (err) {
-      // todo depend on error type, set user or message state to false
-      if (err.response.status === 404) {
+    } catch (error) {
+      if (error.response.status === 404) {
         setUserState(false);
       }
-      console.log("error: ", err.response.status);
+      console.log("error: ", error.response.status);
     }
   };
   //*********************************************************************** */
@@ -56,11 +55,9 @@ const ForgotPassword = () => {
   //**************************************************************************** */
   const handleSubmitForm = (event) => {
     event.preventDefault();
-
     sendForgottenPasswordForm();
   };
   const turnBack = () => navigate("/");
-
   //***************************************************************************************
   //  JSX code
   //**************************************************************************************
@@ -74,7 +71,6 @@ const ForgotPassword = () => {
           Na podany poniżej adres email, prześlemy link do zresetowania hasła
         </p>
       </section>
-
       <div>
         <form onSubmit={handleSubmitForm}>
           <hr />
@@ -89,11 +85,9 @@ const ForgotPassword = () => {
           </button>
         </form>
       </div>
-
       <div>
         <CustomButton onClickAction={turnBack}>Wyjście</CustomButton>
       </div>
-
       <div>
         {messageState ? (
           <InfoModal
@@ -116,5 +110,4 @@ const ForgotPassword = () => {
     </>
   );
 };
-
 export default ForgotPassword;

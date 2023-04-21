@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../general/constants";
 import InfoModal from "../modals/InfoModal";
-import { useNavigate } from "react-router-dom";
 import PasswordDouble from "../forms/PasswordDouble";
-
+//************************************************************************ */
+// Function component
+//************************************************************************ */
 const ResetPassword = () => {
   const { resetToken } = useParams();
   const navigate = useNavigate();
@@ -16,7 +17,6 @@ const ResetPassword = () => {
   const passRef = useRef();
   const [passIsValid, setPassIsValid] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
   //*********************************************************************************** */
   //  http request method
   //********************************************************************************** */
@@ -30,19 +30,16 @@ const ResetPassword = () => {
     try {
       console.log("postPack", postPack);
       const response = await axios.post(API_URL + url, postPack);
-
       setIsSubmitted(true);
-
       if (response.status === 200) {
-        console.log("response :>> ", response);
-
-        // todo password has changed...
+        // todo password has changed... info for user in modal
       } else if (response.status === 401) {
+        //todo info for user about failure
         console.log("zły token - nie zmieniono hasła!");
       }
-    } catch (err) {
+    } catch (report) {
       // todo depend on error type, set user or message state to false
-      console.log("error: ", err);
+      console.log("error: ", report);
     }
   };
   //************************************************************************************ */
@@ -56,21 +53,16 @@ const ResetPassword = () => {
       submitButtonRef.current.disabled = true;
     }
   }, [passIsValid]);
-  //*********************************************************************************** */
-  //  form submitting method and sending http request
-  //********************************************************************************** */
   const handleSubmitForm = (event) => {
     event.preventDefault();
     sendNewPasswordToServer();
   };
-
   //*********************************************************************************** */
   // JSX code
   //*********************************************************************************** */
   return (
     <>
       <div>Resetowanie starego hasła</div>
-
       <form onSubmit={handleSubmitForm}>
         <p>Wprowadź nowe hasło:</p>
         <PasswordDouble
@@ -82,7 +74,6 @@ const ResetPassword = () => {
           Wyślij
         </button>
       </form>
-
       <div>
         <InfoModal
           message="Hasło zostało zmienione, możesz się nim logować"
@@ -94,5 +85,4 @@ const ResetPassword = () => {
     </>
   );
 };
-
 export default ResetPassword;
