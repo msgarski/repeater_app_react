@@ -1,20 +1,61 @@
+import { Link } from "react-router-dom";
+import CustomButton from "../buttons/CustomButton";
+//**************************************************************************** */
+//  Main Block
+//**************************************************************************** */
 const CourseBar = ({
   name,
+  courseId,
   description,
   forLearning,
   repeats,
   cards,
   lessons,
+  awkwards,
 }) => {
+  const getBatchLearningOfCourse = () => {
+    console.log("idziemy się uczyć...");
+    // zeroing store learning: setIndex, LoopNumber, setEndLearning
+    // http request for: learning/CardsForLearningBatch/" + courseId + "/" + batchLimit
+    // then router push /learning/courseId
+  };
+
+  //*************************************************************************** */
+  //  JSX code
+  //*************************************************************************** */
   return (
-    //todo its only skeleton...
     <>
+      <hr />
+      <div>{name} </div>
+      <div>opis: {description}</div>
       <p>
-        {name} opis: {description} lekcji: {lessons} kart: {cards} do nauki:{" "}
-        {forLearning} powtórki: {repeats}
+        lekcji: {lessons} kart: {cards}
       </p>
+      <div>
+        do nauki:
+        {forLearning}
+        {forLearning > 0 ? (
+          <Link to={`/learningnew/${courseId}`}>
+            <CustomButton onClickAction={getBatchLearningOfCourse}>
+              Ucz się teraz
+            </CustomButton>
+          </Link>
+        ) : null}
+      </div>
+      <div>
+        powtórki: {repeats}{" "}
+        {repeats > 0 ? (
+          <CustomButton onClickAction={getBatchLearningOfCourse}>
+            Powtarzaj teraz
+          </CustomButton>
+        ) : null}
+      </div>
+      <div>
+        trudne słowa:
+        {awkwards}
+      </div>
+      <hr />
     </>
   );
 };
-
 export default CourseBar;

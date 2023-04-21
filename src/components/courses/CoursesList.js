@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import CourseBar from "./CourseBar";
-
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
@@ -17,13 +16,13 @@ const CourseDetails = ({ courses }) => {
               <Link to={`/course/${el.course_id}`}>
                 <CourseBar
                   name={el.name}
+                  courseId={el.course_id}
                   description={el.description}
                   lessons={el.lesson_amount}
                   cards={el.card_amount}
                   forLearning={el.for_learning}
-                  //todo button for learning if amount != 0
                   repeats={el.for_repeating}
-                  //todo button for repeating if amount!=0
+                  awkwards={el.awkward_amount}
                 />
               </Link>
             </li>
@@ -33,5 +32,4 @@ const CourseDetails = ({ courses }) => {
     </>
   );
 };
-
 export default CourseDetails;
