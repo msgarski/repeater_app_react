@@ -12,6 +12,9 @@ const allLessonsSlice = createSlice({
       state.length = 0;
       action.payload.forEach((el, i, a) => state.push(el));
     },
+    // returnOneLessonById: (state, lessonId) => {
+    //   return state.filter((element) => element.lesson_id === lessonId);
+    // },
   },
 });
 
