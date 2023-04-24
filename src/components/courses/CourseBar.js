@@ -17,7 +17,7 @@ const CourseBar = ({
     console.log("idziemy się uczyć...");
     // zeroing store learning: setIndex, LoopNumber, setEndLearning
     // http request for: learning/CardsForLearningBatch/" + courseId + "/" + batchLimit
-    // then router push /learning/courseId
+    // then router push /learningnew/courseId
   };
 
   //*************************************************************************** */
@@ -35,11 +35,10 @@ const CourseBar = ({
         do nauki:
         {forLearning}
         {forLearning > 0 ? (
-          <Link to={`/learningnew/${courseId}`}>
-            <CustomButton onClickAction={getBatchLearningOfCourse}>
-              Ucz się teraz
-            </CustomButton>
-          </Link>
+          // button as a link to={`/learningnew/${courseId}`}>
+          <CustomButton onClickAction={getBatchLearningOfCourse}>
+            Ucz się teraz
+          </CustomButton>
         ) : null}
       </div>
       <div>

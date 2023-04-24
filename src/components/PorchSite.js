@@ -23,12 +23,6 @@ const PorchSite = () => {
 
   // const [errorCode, setErrorCode] = useState(null);
 
-  // todo set boolean value of list of repeats existing
-
-  // todo according to above, display or hide button on the site
-
-  // todo implement action for fastRepeats button
-
   //**************************************************************************** */
   //  Http requests
   //**************************************************************************** */
@@ -64,7 +58,6 @@ const PorchSite = () => {
       firstTimeRef.current = false;
     } else {
       dispatch(addListCoursesWithRepeatsNums(courseList));
-      // console.log("state repeats", repeatsList);
     }
   }, [courseList, dispatch]);
 
@@ -79,11 +72,6 @@ const PorchSite = () => {
     <>
       {!showRepeats ? (
         <div>
-          {/* <div>
-            <Link to={`/singleimport/${lesson_id}`}>
-              <button>Dodaj nowe słowo</button>
-            </Link>
-          </div> */}
           <div>
             <button
               disabled={!repeatsList}
@@ -104,10 +92,7 @@ const PorchSite = () => {
       ) : (
         <div>
           <p>Lista kursów z powtórkami</p>
-
           <ul>
-            {/* router-link :to="'/repeating/' + courseId" ale w vue tam jest pusto...*/}
-
             {repeatsList.map((el) => {
               return (
                 <li key={el.course_id}>
