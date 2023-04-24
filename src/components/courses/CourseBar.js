@@ -26,14 +26,23 @@ const CourseBar = ({
   return (
     <>
       <hr />
-      <div>{name} </div>
-      <div>opis: {description}</div>
-      <p>
-        lekcji: {lessons} kart: {cards}
-      </p>
+      <Link to={`/course/${courseId}`}>
+        <div>{name} </div>
+        <div>opis: {description}</div>
+        <p>
+          lekcji: {lessons} kart: {cards}
+        </p>
+        <div>
+          do nauki:
+          {forLearning}
+        </div>
+        <div>powtórki: {repeats} </div>
+        <div>
+          trudne słowa:
+          {awkwards}
+        </div>
+      </Link>
       <div>
-        do nauki:
-        {forLearning}
         {forLearning > 0 ? (
           // button as a link to={`/learningnew/${courseId}`}>
           <CustomButton onClickAction={getBatchLearningOfCourse}>
@@ -42,16 +51,11 @@ const CourseBar = ({
         ) : null}
       </div>
       <div>
-        powtórki: {repeats}{" "}
         {repeats > 0 ? (
           <CustomButton onClickAction={getBatchLearningOfCourse}>
             Powtarzaj teraz
           </CustomButton>
         ) : null}
-      </div>
-      <div>
-        trudne słowa:
-        {awkwards}
       </div>
       <hr />
     </>

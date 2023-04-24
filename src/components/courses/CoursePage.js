@@ -73,9 +73,9 @@ const CoursePage = () => {
           <p>Twoje lekcje w kursie:</p>
         </div>
         <div>
-          <Link to={`/newlesson/${course_id}`}>
-            <button>Dodaj nową lekcję</button>
-          </Link>
+          <button onClick={() => navigate(`/newlesson/${course_id}`)}>
+            Dodaj nową lekcję
+          </button>
         </div>
       </div>
 
@@ -85,9 +85,9 @@ const CoursePage = () => {
         ) : (
           <div>
             <h2>Nie stworzyłeś jeszcze lekcji do tego kursu...</h2>
-            <Link to={`/newlesson/${course_id}`}>
-              <button>Stwórz pierwszą lekcję</button>
-            </Link>
+            <button onClick={() => navigate(`/newlesson/${course_id}`)}>
+              Stwórz pierwszą lekcję
+            </button>
           </div>
         )}
         <LoadingSpinner />

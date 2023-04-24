@@ -15,17 +15,15 @@ const LessonsList = ({ lessons }) => {
         {lessons.map((el) => {
           return (
             <li key={el.lesson_id}>
-              <Link to={`/lesson/${el.lesson_id}`}>
-                <LessonBar
-                  name={el.name}
-                  lessonId={el.lesson_id}
-                  description={el.description}
-                  cards={el.card_amount}
-                  forLearning={el.for_learning}
-                  repeats={el.for_repeating}
-                  // awkwards={}
-                />
-              </Link>
+              <LessonBar
+                name={el.name}
+                lessonId={el.lesson_id}
+                description={el.description}
+                cards={el.card_amount}
+                forLearning={el.for_learning}
+                repeats={el.for_repeating}
+                // awkwards={}
+              />
             </li>
           );
         })}

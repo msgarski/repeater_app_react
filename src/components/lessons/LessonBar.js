@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../buttons/CustomButton";
 //**************************************************************************** */
 //  Main Block
@@ -13,6 +13,7 @@ const LessonBar = ({
   repeats,
   awkwards,
 }) => {
+  const navigate = useNavigate();
   const getBatchLearningOfCourse = () => {
     console.log("idziemy do nauki...");
   };
@@ -35,13 +36,21 @@ const LessonBar = ({
           </Link>
         </div>
       </section>
-
-      <div>temat lekcji: {name} </div>
-      <div>opis: {description}</div>
-      <p>kart w lekcji: {cards}</p>
+      <Link to={`/lesson/${lessonId}`}>
+        <div>temat lekcji: {name} </div>
+        <div>opis: {description}</div>
+        <p>kart w lekcji: {cards}</p>
+        <div>
+          do nauki:
+          {forLearning}
+        </div>
+        <div>do powtórki: {repeats}</div>
+        {/* <div>
+        trudne słowa:
+        {awkwards}
+      </div> */}
+      </Link>
       <div>
-        do nauki:
-        {forLearning}
         {forLearning > 0 ? (
           <Link to={`/learningnew/${courseId}`}>
             <CustomButton onClickAction={getBatchLearningOfCourse}>
@@ -51,23 +60,19 @@ const LessonBar = ({
         ) : null}
       </div>
       <div>
-        do powtórki: {repeats}
         {repeats > 0 ? (
           <CustomButton onClickAction={getBatchLearningOfCourse}>
             Powtarzaj teraz
           </CustomButton>
         ) : null}
       </div>
-      {/* <div>
-        trudne słowa:
-        {awkwards}
-      </div> */}
-      <div>
+      <section>
         <Link to={`/editlesson/${lessonId}`}>
           <CustomButton>Edytuj lekcję</CustomButton>
         </Link>
         <CustomButton>Usuń lekcję</CustomButton>
-      </div>
+      </section>
+
       <hr />
     </>
   );
