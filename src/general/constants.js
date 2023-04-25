@@ -85,3 +85,5 @@ export const INITIAL_MASS_CARDS_DATA_PACK = {
   cardsInput: "",
   priority: false,
 };
+
+// export const INI
