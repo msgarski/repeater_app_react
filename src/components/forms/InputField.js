@@ -9,6 +9,7 @@ const InputField = forwardRef(
       type = "text",
       value = "",
       name = "",
+      maxLength = 49,
       onChange,
       actionOnBlur,
     },
@@ -35,6 +36,7 @@ const InputField = forwardRef(
               id={id}
               name={name}
               value={value}
+              maxLength={maxLength}
               ref={myRef}
             />
           )}

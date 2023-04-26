@@ -81,7 +81,7 @@ const LessonTable = ({ lessonId }) => {
       <p>Lesson Table</p>
       <div>
         <div>
-          <label for="search">Wyszukaj</label>
+          <label>Wyszukaj</label>
           <input type="search" id="search" />
         </div>
         <table>

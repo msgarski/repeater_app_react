@@ -9,6 +9,7 @@ import InfoModal from "../modals/InfoModal";
 // Function component
 //************************************************************************ */
 const SignIn = () => {
+  console.clear();
   const navigate = useNavigate();
   const { setTokenContext, setUserIdContext, setUserNameContext } =
     useAuthentication();

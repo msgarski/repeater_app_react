@@ -3,7 +3,8 @@ import InputField from "../forms/InputField";
 import TextareaField from "../forms/TextareaField";
 import useAuthentication from "../../hooks/useAuthentication";
 import { INITIAL_NEW_COURSE_DATA } from "../../general/constants";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import InputValidationMessages from "../forms/InputValidationMessages";
 import axios from "axios";
 import {
   isStringExists,
@@ -13,6 +14,8 @@ import {
 //  Main Block
 //**************************************************************************** */
 const NewLesson = () => {
+  const submitButtonRef = useRef();
+  const messageRef = useRef();
   const navigate = useNavigate();
   const { course_id } = useParams();
   const { token, userId, setTokenContext } = useAuthentication();
@@ -25,7 +28,6 @@ const NewLesson = () => {
     });
   };
 
-  // useEffect(() => {}, [newLesson]);
   //******************************************************************************** */
   //  Http request method
   //******************************************************************************** */
@@ -38,12 +40,9 @@ const NewLesson = () => {
 
   const addNewLesson = async () => {
     try {
-      console.log("uruchomione tworzenie kursu...");
       const response = await axios.post("/lesson/create", requestData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response from new course: ", response);
-      //todo redirecting to mainscreen, or to new course page
       setNewLesson(INITIAL_NEW_COURSE_DATA);
       setTokenContext(response.data);
       navigate(-1);
@@ -53,13 +52,23 @@ const NewLesson = () => {
   };
 
   const submitHandler = (event) => {
-    console.log("submit formularza");
-    isStringExists(newLesson.name);
-    checkProperStringLength(newLesson.name, 3);
-
     event.preventDefault();
+
     addNewLesson();
   };
+
+  useEffect(() => {
+    submitButtonRef.current.disabled = !isStringExists(newLesson.name);
+    newLesson.name
+      ? (messageRef.current.hidden = checkProperStringLength(
+          newLesson.name,
+          3,
+          50
+        ))
+      : (messageRef.current.hidden = true);
+
+    checkProperStringLength(newLesson.description, 0, 200);
+  }, [newLesson.name, newLesson.description]);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -81,6 +90,9 @@ const NewLesson = () => {
               value={newLesson.name}
             />
           </div>
+          <p ref={messageRef} hidden>
+            Temat lekcji powinien mieć minimum 3 znaki
+          </p>
 
           <div>
             <label>Opis lekcji</label>
@@ -97,7 +109,9 @@ const NewLesson = () => {
 
           <div>
             <div id="btn">
-              <button type="submit">Dodaj lekcję</button>
+              <button type="submit" ref={submitButtonRef} disabled>
+                Dodaj lekcję
+              </button>
             </div>
           </div>
         </form>

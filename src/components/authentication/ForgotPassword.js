@@ -39,10 +39,6 @@ const ForgotPassword = () => {
   // Validation section
   //*************************************************************************** */
   useEffect(() => {
-    console.log(
-      "sprawdzenie refa w forgocie: ",
-      submitButtonRef.current.disabled
-    );
     if (emailIsValid) {
       submitButtonRef.current.disabled = false;
     }

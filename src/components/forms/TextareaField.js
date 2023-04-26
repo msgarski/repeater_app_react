@@ -11,6 +11,7 @@ const TextareaField = forwardRef(
       type = "text",
       value = "",
       name = "",
+      maxLength = 190,
       onChange,
       actionOnBlur,
     },
@@ -29,6 +30,7 @@ const TextareaField = forwardRef(
             id={id}
             name={name}
             value={value}
+            maxLength={maxLength}
             ref={myRef}
           />
         </div>

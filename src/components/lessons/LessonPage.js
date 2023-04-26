@@ -38,7 +38,6 @@ const LessonPage = () => {
 
           <div>
             <label>Do powtórki:</label>
-            {/* <p>{{ lessonInfo.for_repeating }}</p> */}
             <button>Powtarzaj</button>
           </div>
         </div>

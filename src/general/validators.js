@@ -11,8 +11,8 @@ export function checkPasswordLength(str) {
   );
 }
 
-export function checkProperStringLength(str, min) {
-  return str.length >= min;
+export function checkProperStringLength(str, min, max = 200) {
+  return str.length >= min && str.length <= max ? 1 : str.length < min ? 0 : -1;
 }
 export function isStringExists(str) {
   return !!str.length;
