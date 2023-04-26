@@ -4,7 +4,6 @@ import TextareaField from "../forms/TextareaField";
 import useAuthentication from "../../hooks/useAuthentication";
 import { INITIAL_NEW_COURSE_DATA } from "../../general/constants";
 import { useState, useRef, useEffect } from "react";
-import InputValidationMessages from "../forms/InputValidationMessages";
 import axios from "axios";
 import {
   isStringExists,

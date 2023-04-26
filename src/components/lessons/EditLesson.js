@@ -1,18 +1,23 @@
 import { useParams, useNavigate } from "react-router-dom";
 import useAuthentication from "../../hooks/useAuthentication";
 import axios from "axios";
-import { API_URL } from "../../general/constants";
+import { API_URL, INITIAL_NEW_COURSE_DATA } from "../../general/constants";
 import CustomButton from "../buttons/CustomButton";
 import InputField from "../forms/InputField";
 import TextareaField from "../forms/TextareaField";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { INITIAL_NEW_COURSE_DATA } from "../../general/constants";
+import { useState, useEffect, useRef } from "react";
+import {
+  checkProperStringLength,
+  isStringExists,
+} from "../../general/validators";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const EditLesson = () => {
+  const submitButtonRef = useRef();
+  const messageRef = useRef();
   const { token, userId, setTokenContext } = useAuthentication();
   const { lessonId } = useParams();
   const navigate = useNavigate();
@@ -68,6 +73,23 @@ const EditLesson = () => {
     console.log("pack of edited lesson: ", pack);
     updateLessonRecord();
   };
+
+  useEffect(() => {
+    submitButtonRef.current.disabled =
+      !isStringExists(lessonInfo.name) ||
+      (lessonInfo.name === oldLessonInfo.name &&
+        lessonInfo.description === oldLessonInfo.description);
+
+    lessonInfo.name
+      ? (messageRef.current.hidden = checkProperStringLength(
+          lessonInfo.name,
+          3,
+          50
+        ))
+      : (messageRef.current.hidden = true);
+
+    checkProperStringLength(lessonInfo.description, 0, 200);
+  }, [lessonInfo.name, lessonInfo.description]);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -87,6 +109,9 @@ const EditLesson = () => {
             onChange={handleInputFieldToHookObject}
           />
         </div>
+        <p ref={messageRef} hidden>
+          Temat lekcji powinien mieć minimum 3 znaki
+        </p>
         <div>
           <label>Zmień opis lekcji</label>
           <TextareaField
@@ -100,7 +125,9 @@ const EditLesson = () => {
           />
         </div>
         <div>
-          <button type="submit">Zatwierdź zmiany</button>
+          <button type="submit" ref={submitButtonRef} disabled>
+            Zatwierdź zmiany
+          </button>
         </div>
       </form>
       <div>
