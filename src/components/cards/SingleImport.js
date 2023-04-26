@@ -5,19 +5,27 @@ import {
   INITIAL_SINGLE_CARD_DATA_PACK,
 } from "../../general/constants";
 import useAuthentication from "../../hooks/useAuthentication";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import InputField from "../forms/InputField";
 import TextareaField from "../forms/TextareaField";
+import {
+  checkProperStringLength,
+  isStringExists,
+} from "../../general/validators";
 
 //**************************************************************************** */
 //  Main Block
 //**************************************************************************** */
 const SingleImport = () => {
-  console.clear();
+  const submitButtonRef = useRef();
+  const messageRef = useRef();
+  const myRef = useRef();
+  // console.clear();
   const { token, userId, setTokenContext } = useAuthentication();
   const navigate = useNavigate();
   const { lesson_id } = useParams();
   const [singleCard, setSingleCard] = useState(INITIAL_SINGLE_CARD_DATA_PACK);
+  const [rerender, setRerender] = useState(false);
 
   const handleInputFieldToHookObject = (event) => {
     setSingleCard({
@@ -46,11 +54,9 @@ const SingleImport = () => {
       const response = await axios.post(API_URL + "/cards/createCard", pack, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response z dodania karty: ", response);
       setTokenContext(response.data);
       setSingleCard(INITIAL_SINGLE_CARD_DATA_PACK);
-      console.log("token nowy: ", token);
-      //todo redirecting???
+      setRerender(true);
     } catch (error) {
       console.log("error", error);
     }
@@ -61,6 +67,34 @@ const SingleImport = () => {
     event.preventDefault();
     addSingleCard();
   };
+
+  useEffect(() => {
+    myRef.current.focus();
+  }, [rerender]);
+
+  useEffect(() => {
+    submitButtonRef.current.disabled = !(
+      isStringExists(singleCard.question) && isStringExists(singleCard.answer)
+    );
+  }, [singleCard.question, singleCard.answer]);
+
+  const validateOnBlur = () => {
+    !(singleCard.question && singleCard.answer)
+      ? (messageRef.current.hidden = false)
+      : (messageRef.current.hidden = true);
+  };
+  // useEffect(() => {
+  //   submitButtonRef.current.disabled = !isStringExists(newLesson.name);
+  //   newLesson.name
+  //     ? (messageRef.current.hidden = checkProperStringLength(
+  //         newLesson.name,
+  //         3,
+  //         50
+  //       ))
+  //     : (messageRef.current.hidden = true);
+
+  //   checkProperStringLength(newLesson.description, 0, 200);
+  // }, [newLesson.name, newLesson.description]);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -70,16 +104,6 @@ const SingleImport = () => {
 
       <form onSubmit={handleAddCardForm}>
         <p>formularz dodania karty</p>
-        <div>
-          <InputField
-            type="checkbox"
-            id="priority"
-            name="priority"
-            title="Nauka priorytetowa"
-            value={singleCard.priority}
-            onChange={handleInputFieldToHookObject}
-          />
-        </div>
 
         <div>
           <InputField
@@ -89,6 +113,7 @@ const SingleImport = () => {
             title="pytanie"
             value={singleCard.question}
             onChange={handleInputFieldToHookObject}
+            ref={myRef}
           />
         </div>
         <div>
@@ -99,8 +124,12 @@ const SingleImport = () => {
             title="Odpowiedź"
             value={singleCard.answer}
             onChange={handleInputFieldToHookObject}
+            actionOnBlur={validateOnBlur}
           />
         </div>
+        <p ref={messageRef} hidden>
+          Pytanie i odpowiedź nie mogą być puste
+        </p>
         <div>
           <InputField
             type="text"
@@ -109,6 +138,7 @@ const SingleImport = () => {
             title="Wymowa"
             value={singleCard.pronounciation}
             onChange={handleInputFieldToHookObject}
+            actionOnBlur={validateOnBlur}
           />
         </div>
         <div>
@@ -123,12 +153,24 @@ const SingleImport = () => {
           />
         </div>
         <div>
+          <InputField
+            type="checkbox"
+            id="priority"
+            name="priority"
+            title="Nauka priorytetowa"
+            value={singleCard.priority}
+            onChange={handleInputFieldToHookObject}
+          />
+        </div>
+        <div>
           <hr />
           <label>Dodaj obrazek</label>
           <input type="file" id="image" name="image" size="300" />
           <hr />
         </div>
-        <button type="submit">dodaj kartę</button>
+        <button type="submit" ref={submitButtonRef} disabled>
+          dodaj kartę
+        </button>
       </form>
       <button onClick={() => navigate(-1)}>Anuluj</button>
     </>

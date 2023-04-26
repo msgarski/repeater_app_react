@@ -40,7 +40,6 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
 
   useEffect(() => {
     if (alreadyRendered.current) {
-      // console.log("nonOmittedfirst: ", isStringExists(newEmailsState.email));
       setEmailValidationState({
         nonOmittedFirst: isStringExists(newEmailsState.email),
         nonOmittedSecond: isStringExists(newEmailsState.email_confirmation),
@@ -59,7 +58,6 @@ const EmailDouble = forwardRef(({ setEmailIsValid, submition }, emailRef) => {
     let isEmailGeneralValid = Object.values(emailValidationState).every(
       (val) => val === true
     );
-    // console.log("isEmailGeneralValid", isEmailGeneralValid);
     if (isEmailGeneralValid) {
       setEmailIsValid(true);
     }

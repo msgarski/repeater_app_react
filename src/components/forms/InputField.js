@@ -38,6 +38,7 @@ const InputField = forwardRef(
               value={value}
               maxLength={maxLength}
               ref={myRef}
+              onBlur={actionOnBlur}
             />
           )}
         </div>

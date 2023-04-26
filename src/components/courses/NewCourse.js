@@ -1,7 +1,7 @@
 import useAuthentication from "../../hooks/useAuthentication";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import InputField from "../forms/InputField";
 import TextareaField from "../forms/TextareaField";
 import { INITIAL_NEW_COURSE_DATA } from "../../general/constants";
@@ -14,6 +14,8 @@ import {
 //  Main Block
 //**************************************************************************** */
 const NewCourse = () => {
+  const submitButtonRef = useRef();
+  const messageRef = useRef();
   const { token, userId, setTokenContext } = useAuthentication();
   const [newCourse, setNewCourse] = useState(INITIAL_NEW_COURSE_DATA);
   const navigate = useNavigate();
@@ -59,6 +61,18 @@ const NewCourse = () => {
     addNewCourse();
   };
 
+  useEffect(() => {
+    submitButtonRef.current.disabled = !isStringExists(newCourse.name);
+    newCourse.name
+      ? (messageRef.current.hidden = checkProperStringLength(
+          newCourse.name,
+          3,
+          50
+        ))
+      : (messageRef.current.hidden = true);
+
+    checkProperStringLength(newCourse.description, 0, 200);
+  }, [newCourse.name, newCourse.description]);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -77,6 +91,9 @@ const NewCourse = () => {
           onChange={handleInputFieldToHookObject}
         />
         <div>
+          <p ref={messageRef} hidden>
+            Temat lekcji powinien mieć minimum 3 znaki
+          </p>
           <TextareaField
             rows="5"
             cols="50"
@@ -88,7 +105,9 @@ const NewCourse = () => {
           />
         </div>
         <div>
-          <button type="submit">Dodaj kurs</button>
+          <button type="submit" ref={submitButtonRef} disabled>
+            Dodaj kurs
+          </button>
         </div>
       </form>
 
