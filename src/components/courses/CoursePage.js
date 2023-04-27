@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../../general/constants";
 import axios from "axios";
 import useAuthentication from "../../hooks/useAuthentication";
-import { addAllUserLessons } from "../../store/slices/allLessonsSlice";
+import { addOneCourseLessons } from "../../store/slices/allLessonsSlice";
 
 //**************************************************************************** */
 //  Main Block
@@ -33,7 +33,7 @@ const CoursePage = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(addAllUserLessons(listOfLessons));
+    dispatch(addOneCourseLessons(listOfLessons));
   }, [listOfLessons]);
   //******************************************************************************** */
   //  Http request method
@@ -51,7 +51,10 @@ const CoursePage = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+      console.log(
+        "response.data.payload - list of lesssons: ",
+        response.data.payload
+      );
       setListOfLessons(response.data.payload);
       setTokenContext(response.data.newToken);
     } catch (error) {

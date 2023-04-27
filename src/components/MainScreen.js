@@ -34,7 +34,6 @@ const MainScreen = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("response.data: ", response.data.payload);
       setAllCoursesList(response.data.payload);
 
       let result = shouldWeUpdateContextJWT(response, token);
@@ -65,12 +64,14 @@ const MainScreen = () => {
   //*************************************************************************** */
   return (
     <>
+      <div></div>
       <div>
+        <Link to="/porch">
+          <button>Powrót</button>
+        </Link>
         <Link to="/newcourse">
           <button>Dodaj kurs</button>
         </Link>
-      </div>
-      <div>
         <Link to="/mainoptions">
           <button>Opcje główne</button>
         </Link>
@@ -92,10 +93,6 @@ const MainScreen = () => {
       ) : (
         <LoadingSpinner />
       )}
-
-      <Link to="/porch">
-        <button>Powrót</button>
-      </Link>
     </>
   );
 };

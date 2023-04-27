@@ -8,10 +8,7 @@ import useAuthentication from "../../hooks/useAuthentication";
 import { useState, useEffect, useRef } from "react";
 import InputField from "../forms/InputField";
 import TextareaField from "../forms/TextareaField";
-import {
-  checkProperStringLength,
-  isStringExists,
-} from "../../general/validators";
+import { isStringExists } from "../../general/validators";
 
 //**************************************************************************** */
 //  Main Block
@@ -83,18 +80,7 @@ const SingleImport = () => {
       ? (messageRef.current.hidden = false)
       : (messageRef.current.hidden = true);
   };
-  // useEffect(() => {
-  //   submitButtonRef.current.disabled = !isStringExists(newLesson.name);
-  //   newLesson.name
-  //     ? (messageRef.current.hidden = checkProperStringLength(
-  //         newLesson.name,
-  //         3,
-  //         50
-  //       ))
-  //     : (messageRef.current.hidden = true);
 
-  //   checkProperStringLength(newLesson.description, 0, 200);
-  // }, [newLesson.name, newLesson.description]);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */

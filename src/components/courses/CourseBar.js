@@ -44,18 +44,21 @@ const CourseBar = ({
       </Link>
       <div>
         {forLearning > 0 ? (
-          // button as a link to={`/learningnew/${courseId}`}>
+          // link to={`/learningnew/${courseId}`}>
           <CustomButton onClickAction={getBatchLearningOfCourse}>
             Ucz się teraz
           </CustomButton>
         ) : null}
-      </div>
-      <div>
         {repeats > 0 ? (
           <CustomButton onClickAction={getBatchLearningOfCourse}>
             Powtarzaj teraz
           </CustomButton>
         ) : null}
+      </div>
+      <div>
+        <Link to={`/editcourse/${courseId}`}>
+          <button>Edytuj kurs</button>
+        </Link>
       </div>
       <hr />
     </>

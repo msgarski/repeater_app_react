@@ -18,6 +18,7 @@ import SingleImport from "../components/cards/SingleImport";
 import MassImport from "../components/cards/MassImport";
 import LearningNew from "../components/presentations/LearningNew";
 import EditLesson from "../components/lessons/EditLesson";
+import EditCourse from "../components/courses/EditCourse";
 
 const AppRoutes = () => {
   return (
@@ -140,6 +141,17 @@ const AppRoutes = () => {
           }
         >
           <Route path=":lessonId" element={<EditLesson />}></Route>
+        </Route>
+
+        <Route
+          path="editcourse"
+          element={
+            <ProtectedPage>
+              <EditCourse />
+            </ProtectedPage>
+          }
+        >
+          <Route path=":courseId" element={<EditCourse />}></Route>
         </Route>
       </Routes>
     </>
