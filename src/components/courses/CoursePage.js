@@ -71,6 +71,9 @@ const CoursePage = () => {
         Strona kursu: {course_id} {course.name}
       </div>
       <button onClick={() => navigate(-1)}>Powrót</button>
+      <Link to={`/editcourse/${course_id}`}>
+        <button>Edytuj kurs</button>
+      </Link>
       <div>
         <div>
           <p>Twoje lekcje w kursie:</p>
