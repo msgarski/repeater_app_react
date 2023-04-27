@@ -12,7 +12,6 @@ import {
   checkProperStringLength,
   isStringExists,
 } from "../../general/validators";
-import userEvent from "@testing-library/user-event";
 
 //**************************************************************************** */
 //  Main Block
@@ -27,6 +26,7 @@ const EditCourse = () => {
   const course = useSelector((state) =>
     state.courses.filter((element) => element.course_id === courseId)
   );
+  console.log("course info: ", course);
   let oldCourseInfo = { ...INITIAL_NEW_COURSE_DATA };
   if (course) {
     oldCourseInfo = {
@@ -70,13 +70,15 @@ const EditCourse = () => {
     }
   };
 
-  const deleteThisCourse = () => {
+  const checkIfDeleteThisCourse = () => {
     setDeleteCourse(true);
     setTimeout(() => {
       setDeleteCourse(false);
     }, 2000);
   };
-
+  const deleteThisCoursePermanently = () => {
+    //
+  };
   const handleEditCourseForm = (event) => {
     event.preventDefault();
     console.log("pack of edited course: ", pack);
@@ -98,7 +100,12 @@ const EditCourse = () => {
       : (messageRef.current.hidden = true);
 
     checkProperStringLength(courseInfo.description, 0, 200);
-  }, [courseInfo.name, courseInfo.description]);
+  }, [
+    courseInfo.name,
+    courseInfo.description,
+    oldCourseInfo.name,
+    oldCourseInfo.description,
+  ]);
   //*************************************************************************** */
   //  JSX code
   //*************************************************************************** */
@@ -108,12 +115,16 @@ const EditCourse = () => {
         <h3>Edycja lekcji</h3>
       </div>
       <div>
-        {deleteCourse === true ? (
-          <div>usuwanie kursu...</div>
-        ) : (
-          <DeleteButton type="button" onClickAction={deleteThisCourse}>
+        {deleteCourse === false ? (
+          <DeleteButton type="button" onClickAction={checkIfDeleteThisCourse}>
             Usuń kurs
           </DeleteButton>
+        ) : +course[0].lesson_amount === 0 ? (
+          <div>
+            <button onClick={deleteThisCoursePermanently}>Na pewno?</button>
+          </div>
+        ) : (
+          <div>Najpierw usuń wszystkie lekcje z tego kursu...</div>
         )}
       </div>
       <form onSubmit={handleEditCourseForm}>
